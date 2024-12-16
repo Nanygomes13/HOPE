@@ -5,7 +5,6 @@ import 'package:minhasdoacoes/transacao.dart';
 class CardMinhasdoacoes extends StatefulWidget {
   final Transacao transacao;
 
-
   const CardMinhasdoacoes({super.key, required this.transacao});
 
 

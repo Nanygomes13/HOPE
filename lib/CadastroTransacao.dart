@@ -11,6 +11,7 @@ class CadastroTransacao extends StatefulWidget {
   State<CadastroTransacao> createState() => _CadastroTransacaoState();
 }
 
+
 class _CadastroTransacaoState extends State<CadastroTransacao> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 

@@ -80,4 +80,3 @@ class _minhasdoacoesState extends State<minhasdoacoes> {
   }
 }
 
-
