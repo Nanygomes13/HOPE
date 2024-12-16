@@ -23,11 +23,14 @@ class _SplashPageState extends State<SplashPage> {
     bool userStatus = await SharedPrefs().getUser();
 
     if (userStatus) {
-      Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) {
-          return const Destaque();
-        },
-      ));
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return const Destaque();
+          },
+        ),
+      );
     } else {
       Navigator.pushReplacement(
         context,
@@ -45,7 +48,7 @@ class _SplashPageState extends State<SplashPage> {
     return Container(
       color: const Color(0xFF233E7D),
       child: Image.asset(
-          'images/imgHope.png',
+        'images/imgHope.png',
       ),
     );
   }

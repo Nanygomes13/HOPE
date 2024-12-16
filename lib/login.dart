@@ -193,17 +193,17 @@ class _Tela_entrarState extends State<Tela_entrar> {
       String senha = senhaController.text;
 
       bool auth = await UserDao().autenticar(email, senha);
+      print(auth);
 
       if (auth) {
         SharedPrefs().setUser(true);
-        Navigator.pushReplacement(
-          context as BuildContext,
+        Navigator.push(
+          context,
           MaterialPageRoute(
-            builder: (context) {
-              return Destaque();
-            },
+            builder: (context) => Destaque(),
           ),
         );
+
       } else {
         print('E-mail e/ou Senha incorreto(s)');
       }

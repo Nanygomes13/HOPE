@@ -2,24 +2,21 @@ import 'package:hopee/db/db_helper.dart';
 import 'package:hopee/domain/user.dart';
 import 'package:sqflite/sqflite.dart';
 
-
 class UserDao {
-  autenticar(String username, String password) async {
+  Future<bool> autenticar(String username, String password) async {
     Database db = await DBHelper().initDB();
 
-
     String sql = 'SELECT * FROM USER '
-        'WHERE USERNAME = ? AND '
-        'PASSWORD = ?;';
-
-
+        'WHERE USERNAME = ? AND PASSWORD = ?;';
     var result = await db.rawQuery(sql, [username, password]);
+
+    print('Resultado da autenticação: $result'); // Debug
     return result.isNotEmpty;
   }
 
-
-  saveUser(User user) async {
+  Future<void> saveUser(User user) async {
     Database db = await DBHelper().initDB();
-    db.insert('USER', user.toJson());
+    await db.insert('USER', user.toJson());
+    print('Usuário salvo: ${user.toJson()}'); // Debug
   }
 }
