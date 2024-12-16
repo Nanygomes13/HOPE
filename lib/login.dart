@@ -196,8 +196,7 @@ class _Tela_entrarState extends State<Tela_entrar> {
 
       if (auth) {
         SharedPrefs().setUser(true);
-
-        // Navegar p/ HomePage
+        
         Navigator.pushReplacement(
           context as BuildContext,
           MaterialPageRoute(
