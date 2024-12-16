@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hopee/cadastro.dart';
 import 'package:hopee/db/shared_prefs.dart';
+import 'package:hopee/destaque.dart';
 import 'package:hopee/login.dart';
 
 class SplashPage extends StatefulWidget {
@@ -24,15 +25,18 @@ class _SplashPageState extends State<SplashPage> {
     if (userStatus) {
       Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (context) {
-          return const cadastro();
+          return const Destaque();
         },
       ));
     } else {
-      Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) {
-          return const Tela_entrar();
-        },
-      ));
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return const Tela_entrar();
+          },
+        ),
+      );
     }
   }
 
@@ -40,8 +44,9 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return Container(
       color: const Color(0xFF233E7D),
-      child: Image.network(
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Logo-hurb-branca-bg-azul.jpg/440px-Logo-hurb-branca-bg-azul.jpg'),
+      child: Image.asset(
+          'images/imgHope.png',
+      ),
     );
   }
 }
