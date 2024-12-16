@@ -3,7 +3,6 @@ import 'package:minhasdoacoes/CadastroTransacao.dart';
 import 'package:minhasdoacoes/CardMinhasdoacoes.dart';
 import 'package:minhasdoacoes/db/database.dart';
 
-
 class minhasdoacoes extends StatefulWidget {
   const minhasdoacoes({
     super.key,

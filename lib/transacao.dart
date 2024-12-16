@@ -7,7 +7,6 @@ class Transacao {
   String data;
   String hora;
 
-
   Transacao({
     this.id,
     required this.nome,
@@ -17,7 +16,6 @@ class Transacao {
     required this.data,
     required this.hora,
   });
-
 
   Map<String, dynamic> toMap() {
     return {
@@ -30,7 +28,6 @@ class Transacao {
       'hora': hora,
     };
   }
-
 
   static Transacao fromMap(Map<String, dynamic> map) {
     return Transacao(

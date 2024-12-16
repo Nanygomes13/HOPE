@@ -1,6 +1,5 @@
 import 'package:minhasdoacoes/transacao.dart';
 
-
 class Database {
   static List doacoes = [
     Transacao(
@@ -10,7 +9,6 @@ class Database {
       pix: 'Transferido da conta poupança var.51',
     ),
 
-
     Transacao(
       nome: 'Pix - pagamento',
       instituicao: 'Gastromotiva',
@@ -18,26 +16,19 @@ class Database {
       pix: 'Transferido da conta poupança var.51',
     ),
 
-
     Transacao(
       nome: 'Pix - pagamento',
       instituicao: 'Ação da Cidadania',
       valor: 100.00,
       pix: 'Transferido da conta poupança var.51',
-
-
     ),
-
 
     Transacao(
       nome: 'Pix - pagamento',
       instituicao: 'Gastromotiva',
       valor: 70.00,
       pix: 'Transferido da conta poupança var.51',
-
-
     ),
-
 
     Transacao(
       nome: 'Pix - pagamento',
@@ -46,14 +37,12 @@ class Database {
       pix: 'Transferido da conta poupança var.51',
     ),
 
-
     Transacao(
       nome: 'Pix - pagamento',
       instituicao: 'AACD',
       valor: 5.50,
       pix: 'Transferido da conta poupança var.51',
     ),
-
 
     Transacao(
       nome: 'Pix - pagamento',
@@ -62,14 +51,12 @@ class Database {
       pix: 'Transferido da conta poupança var.51',
     ),
 
-
     Transacao(
       nome: 'Pix - pagamento',
       instituicao: 'Todos pela Educação',
       valor: 20.00,
       pix: 'Transferido da conta poupança var.51',
     ),
-
 
     Transacao(
       nome: 'Pix - pagamento',
