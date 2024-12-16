@@ -34,10 +34,9 @@ class _CadastroTransacaoState extends State<CadastroTransacao> {
         hora: hora,
       );
 
-      // Salva no banco de dados
       await DatabaseHelper.instance.insertTransacao(novaTransacao);
 
-      // Retorna à tela anterior
+
       Navigator.pop(context);
     }
   }
