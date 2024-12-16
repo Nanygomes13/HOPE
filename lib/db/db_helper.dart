@@ -1,32 +1,28 @@
 import 'dart:async';
-
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
 
 class DBHelper {
   Future<Database> initDB() async {
     String path = await getDatabasesPath();
-    String dbPath = join(path, "pacote.db");
+    String dbPath = join(path, "cards.db");
     Database database = await openDatabase(
       dbPath,
       version: 1,
       onCreate: onCreate,
     );
 
-
     print(dbPath);
     return database;
   }
 
-
   Future<FutureOr<void>> onCreate(Database db, int version) async {
-    String
-
-    sql = "CREATE TABLE USER (username varchar(100) PRIMARY KEY, password varchar(100))";
+    String sql =
+        'CREATE TABLE CARD (id INTEGER PRIMARY KEY AUTOINCREMENT, titulo varchar(100), descricao varchar(100), imagem varchar(100));';
     await db.execute(sql);
 
-    sql = "INSERT INTO USER (username, password) VALUES ('nany@gmail.com', '123456')";
+    String sql =
+        'CREATE TABLE CARD (id INTEGER PRIMARY KEY AUTOINCREMENT, titulo varchar(100), descricao varchar(100), imagem varchar(100));';
     await db.execute(sql);
   }
 }
