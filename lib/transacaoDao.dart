@@ -2,7 +2,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:hopee/transacao.dart';
 import 'package:hopee/database_helper.dart';
 
-
 class TransacaoDao {
 
   Future<int> salvarTransacao(Transacao transacao) async {

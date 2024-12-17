@@ -4,7 +4,7 @@ import 'package:hopee/minhasdoacoes.dart';
 void main() {
   runApp(
     const MaterialApp(
-      home: minhasdoacoes(),
+      home: MinhasDoacoes(),
     ),
   );
 }
