@@ -18,11 +18,31 @@ class DBHelper {
 
   Future<FutureOr<void>> onCreate(Database db, int version) async {
     String sql =
-        'CREATE TABLE CARD (id INTEGER PRIMARY KEY AUTOINCREMENT, titulo varchar(100), descricao varchar(100), imagem varchar(100));';
+        'CREATE TABLE CARD1 (id INTEGER PRIMARY KEY AUTOINCREMENT, imagem varchar(100), titulo varchar(100), subtitulo varchar(100));';
     await db.execute(sql);
 
-    String sql =
-        'CREATE TABLE CARD (id INTEGER PRIMARY KEY AUTOINCREMENT, titulo varchar(100), descricao varchar(100), imagem varchar(100));';
+    sql =
+    "INSERT INTO CARD1 (imagem, titulo, subtitulo) VALUES (1, 'images/card-2.jpg', 'Alimentos doados à comunidade Espírita Nosso Lar', 'há 2 dias');";
+    await db.execute(sql);
+
+    sql =
+    "INSERT INTO CARD1 (imagem, titulo, subtitulo) VALUES (2, 'images/card-3.jpg', 'Kits de material escolar doados para a Escola Municipal...', 'há 8 horas');";
+    await db.execute(sql);
+
+    sql =
+        'CREATE TABLE CARD2 (id INTEGER PRIMARY KEY AUTOINCREMENT, imagem varchar(100),valor double);';
+    await db.execute(sql);
+
+    sql =
+    "INSERT INTO CARD2 (imagem, valor) VALUES (1, 'images/card-4.png', '577000.00');";
+    await db.execute(sql);
+
+    sql =
+    "INSERT INTO CARD2 (imagem, valor) VALUES (2, 'images/card-5.png', '127000.00');";
+    await db.execute(sql);
+
+    sql =
+    "INSERT INTO CARD2 (imagem, valor) VALUES (3, 'images/card-6.png', '10990.00');";
     await db.execute(sql);
   }
 }

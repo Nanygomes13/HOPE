@@ -1,7 +1,9 @@
+import 'package:hopee/db/cards_dao.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/db/database.dart';
-import 'package:myapp/domain/doacoes.dart';
-import 'package:myapp/pages/TelaBuscar.dart';
+import 'package:hopee/db/db_helper.dart';
+import 'package:hopee/domain/doacoes.dart';
+import 'package:hopee/pages/TelaBuscar.dart';
+
 
 class TelaInicial extends StatefulWidget {
   const TelaInicial({super.key});
@@ -11,6 +13,21 @@ class TelaInicial extends StatefulWidget {
 }
 
 class _TelaInicialState extends State<TelaInicial> {
+  List<Doacoes> doacoesCard1 = [];
+  List<Doacoes> doacoesCard2 = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    doacoesCard1 = await CardsDao().listarDoacoesCard1();
+    doacoesCard2 = await CardsDao().listarDoacoesCard2();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -142,7 +159,7 @@ class _TelaInicialState extends State<TelaInicial> {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
-                      itemCount: Database.doacao1.length,
+                      itemCount: doacoesCard1.length,
                       itemBuilder: (context, i) {
                         return SizedBox(
                           width: 200,
@@ -159,7 +176,7 @@ class _TelaInicialState extends State<TelaInicial> {
                                     topRight: Radius.circular(10),
                                   ),
                                   child: Image.asset(
-                                    Database.doacao1[i].imagem,
+                                    doacoesCard1[i].imagem,
                                     width: 200,
                                     height: 127,
                                     fit: BoxFit.fill,
@@ -172,13 +189,13 @@ class _TelaInicialState extends State<TelaInicial> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        Database.doacao1[i].titulo!,
+                                        doacoesCard1[i].titulo!,
                                         style: const TextStyle(
                                           fontSize: 15,
                                         ),
                                       ),
                                       const SizedBox(height: 7),
-                                      Text(Database.doacao1[i].subtitulo!),
+                                      Text(doacoesCard1[i].subtitulo!),
                                     ],
                                   ),
                                 ),
@@ -207,7 +224,7 @@ class _TelaInicialState extends State<TelaInicial> {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
-                      itemCount: Database.doacao2.length,
+                      itemCount: doacoesCard2.length,
                       itemBuilder: (context, i) {
                         return SizedBox(
                           width: 150,
@@ -224,7 +241,7 @@ class _TelaInicialState extends State<TelaInicial> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Center(
                                       child: Image.asset(
-                                        Database.doacao2[i].imagem,
+                                        doacoesCard2[i].imagem,
                                         width: 115,
                                         height: 65,
                                         fit: BoxFit.scaleDown,
@@ -234,7 +251,7 @@ class _TelaInicialState extends State<TelaInicial> {
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              Text(Database.doacao2[i].valor!),
+                              Text(doacoesCard2[i].valor!),
                             ],
                           ),
                         );
