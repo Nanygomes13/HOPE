@@ -46,7 +46,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFF233E7D),
+      color: const Color(0xFF7C4DFF),
       child: Image.asset(
         'images/imgHope.png',
       ),
