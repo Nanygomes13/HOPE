@@ -251,7 +251,7 @@ class _TelaInicialState extends State<TelaInicial> {
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              Text('${doacoesCard2[i].valor}'),
+                              Text('R\$ ${doacoesCard2[i].valor}'),
                             ],
                           ),
                         );
