@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minhasdoacoes/transacao.dart';
+import 'package:hopee/transacao.dart';
 
 class CardMinhasdoacoes extends StatefulWidget {
   final Transacao transacao;

@@ -1,48 +1,79 @@
 import 'package:flutter/material.dart';
-import 'package:minhasdoacoes/db/database.dart';
-import 'package:minhasdoacoes/main.dart';
-import 'package:minhasdoacoes/transacao.dart';
-import 'package:intl/intl.dart';
+import 'package:hopee/transacao.dart';
+import 'package:hopee/transacao_dao.dart';
+
 
 class CadastroTransacao extends StatefulWidget {
   const CadastroTransacao({super.key});
+
 
   @override
   State<CadastroTransacao> createState() => _CadastroTransacaoState();
 }
 
+
 class _CadastroTransacaoState extends State<CadastroTransacao> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
 
   TextEditingController _nomeController = TextEditingController();
   TextEditingController _instituicaoController = TextEditingController();
   TextEditingController _valorController = TextEditingController();
   TextEditingController _pixController = TextEditingController();
+  TextEditingController _dataController = TextEditingController();
+  TextEditingController _horaController = TextEditingController();
 
-  void salvarTransacao() async {
+
+  void _saveTransaction() async {
     if (_formKey.currentState!.validate()) {
-      final agora = DateTime.now();
-      final data = DateFormat('yyyy-MM-dd').format(agora);
-      final hora = DateFormat('HH:mm').format(agora);
-
       final novaTransacao = Transacao(
         nome: _nomeController.text,
         instituicao: _instituicaoController.text,
         valor: double.tryParse(_valorController.text) ?? 0.0,
         pix: _pixController.text,
-        data: data,
-        hora: hora,
+        data: _dataController.text,
+        hora: _horaController.text,
       );
 
-      await DatabaseHelper.instance.insertTransacao(novaTransacao);
-
-
+      await TransacaoDao().salvarTransacao(novaTransacao);
       Navigator.pop(context);
     }
   }
 
-  Widget _buildTextFormField(String label, TextEditingController controller,
-      {bool isNumeric = false}) {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Cadastrar Transação"),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                _buildTextFormField("Nome", _nomeController),
+                _buildTextFormField("Instituição", _instituicaoController),
+                _buildTextFormField("Valor", _valorController, isNumeric: true),
+                _buildTextFormField("PIX", _pixController),
+                _buildTextFormField("Data", _dataController, isReadOnly: true),
+                _buildTextFormField("Hora", _horaController, isReadOnly: true),
+                const SizedBox(height: 50),
+                ElevatedButton(
+                  onPressed: _saveTransaction,
+                  child: const Text("Salvar"),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  Widget _buildTextFormField(String label, TextEditingController controller, {bool isNumeric = false, bool isReadOnly = false}) {
     return TextFormField(
       controller: controller,
       keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
@@ -56,46 +87,7 @@ class _CadastroTransacaoState extends State<CadastroTransacao> {
         }
         return null;
       },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            "cadastrar transacao",
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 22,
-              color: Colors.black,
-            ),
-          ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              children: [
-                const SizedBox(height: 20),
-                _buildTextFormField("Nome", _nomeController),
-                _buildTextFormField("Instituição", _instituicaoController),
-                _buildTextFormField("Valor", _valorController, isNumeric: true),
-                _buildTextFormField("PIX", _pixController),
-
-                const SizedBox(height: 50),
-                ElevatedButton(
-                  onPressed: salvarTransacao,
-                  child: const Text("Salvar"),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+      readOnly: isReadOnly,
     );
   }
 }

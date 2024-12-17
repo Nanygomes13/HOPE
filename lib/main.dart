@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:minhasdoacoes/CadastroTransacao.dart';
-import 'package:minhasdoacoes/minhasdoacoes.dart';
+import 'package:hopee/minhasdoacoes.dart';
 
 void main() {
   runApp(
     const MaterialApp(
-      home: minhasdoacoes(
-      ),
+      home: minhasdoacoes(),
     ),
   );
 }

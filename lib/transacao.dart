@@ -17,6 +17,7 @@ class Transacao {
     required this.hora,
   });
 
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -29,15 +30,12 @@ class Transacao {
     };
   }
 
-  static Transacao fromMap(Map<String, dynamic> map) {
-    return Transacao(
-      id: map['id'],
-      nome: map['nome'],
-      instituicao: map['instituicao'],
-      valor: map['valor'],
-      pix: map['pix'],
-      data: map['data'],
-      hora: map['hora'],
-    );
-  }
+  Transacao.fromMap(Map<String, dynamic> map)
+      : id = map['id'],
+        nome = map['nome'],
+        instituicao = map['instituicao'],
+        valor = map['valor'],
+        pix = map['pix'],
+        data = map['data'],
+        hora = map['hora'];
 }

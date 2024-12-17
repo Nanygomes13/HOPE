@@ -1,72 +1,61 @@
 import 'dart:async';
+import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:minhasdoacoes/transacao.dart';
+import 'package:hopee/transacao.dart';
 
 class DatabaseHelper {
-  static final DatabaseHelper instance = DatabaseHelper._init();
+  static final DatabaseHelper _instance = DatabaseHelper._internal();
+  factory DatabaseHelper() => _instance;
   static Database? _database;
 
-  DatabaseHelper._init();
+  DatabaseHelper._internal();
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-
-    _database = await _initDB('doacoes.db');
+    _database = await _initDatabase();
     return _database!;
   }
 
-  Future<Database> _initDB(String filePath) async {
+  Future<Database> _initDatabase() async {
     final dbPath = await getDatabasesPath();
-    final path = join(dbPath, filePath);
+    final path = join(dbPath, 'doacoes.db');
 
     return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
 
-  Future _onCreate(Database db, int version) async {
-    const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
-    const textType = 'TEXT NOT NULL';
-    const realType = 'REAL NOT NULL';
-
+  Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
-   CREATE TABLE transacoes (
-     id $idType,
-     nome $textType,
-     instituicao $textType,
-     valor $realType,
-     pix $textType,
-     data $textType,
-     hora $textType
-   )
-   ''');
+      CREATE TABLE transacoes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT,
+        instituicao TEXT,
+        valor REAL,
+        pix TEXT,
+        data TEXT,
+        hora TEXT
+      )
+    ''');
   }
 
   Future<int> insertTransacao(Transacao transacao) async {
-    final db = await instance.database;
+    final db = await database;
     return await db.insert('transacoes', transacao.toMap());
   }
 
   Future<List<Transacao>> getTransacoes() async {
-    final db = await instance.database;
-    final result = await db.query('transacoes');
-    return result.map((json) => Transacao.fromMap(json)).toList();
-  }
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('transacoes');
 
-  Future<int> updateTransacao(Transacao transacao) async {
-    final db = await instance.database;
-    return await db.update(
-      'transacoes',
-      transacao.toMap(),
-      where: 'id = ?',
-      whereArgs: [transacao.id],
-    );
-  }
-
-  Future<int> deleteTransacao(int id) async {
-    final db = await instance.database;
-    return await db.delete(
-      'transacoes',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    return List.generate(maps.length, (i) {
+      return Transacao(
+        id: maps[i]['id'],
+        nome: maps[i]['nome'],
+        instituicao: maps[i]['instituicao'],
+        valor: maps[i]['valor'],
+        pix: maps[i]['pix'],
+        data: maps[i]['data'],
+        hora: maps[i]['hora'],
+      );
+    });
   }
 }

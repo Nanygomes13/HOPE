@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:minhasdoacoes/CadastroTransacao.dart';
-import 'package:minhasdoacoes/CardMinhasdoacoes.dart';
-import 'package:minhasdoacoes/db/database.dart';
+import 'package:hopee/transacao.dart';
+import 'package:hopee/transacao_dao.dart';
+import 'package:hopee/CadastroTransacao.dart';
+import 'package:hopee/CardMinhasdoacoes.dart';
 
-class minhasdoacoes extends StatefulWidget {
-  const minhasdoacoes({
-    super.key,
-  });
+class MinhasDoacoes extends StatefulWidget {
+  const MinhasDoacoes({super.key});
 
   @override
-  State<minhasdoacoes> createState() => _minhasdoacoesState();
+  State<MinhasDoacoes> createState() => _MinhasDoacoesState();
 }
 
-class _minhasdoacoesState extends State<minhasdoacoes> {
+class _MinhasDoacoesState extends State<MinhasDoacoes> {
+  List<Transacao> transacoes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTransacoes();
+  }
+
+  void _loadTransacoes() async {
+    final transacoesFromDb = await TransacaoDao().listarTransacoes();
+    setState(() {
+      transacoes = transacoesFromDb;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -21,21 +35,17 @@ class _minhasdoacoesState extends State<minhasdoacoes> {
           centerTitle: true,
           title: const Text(
             "MINHAS DOAÇÕES",
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 22,
-              color: Colors.black,
-            ),
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 22, color: Colors.black),
           ),
           actions: [
             IconButton(
               icon: const Icon(Icons.add),
-              onPressed: ()async{
+              onPressed: () async {
                 await Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const CadastroTransacao()),
                 );
-                setState(() {});
+                _loadTransacoes(); // Atualiza a lista após adicionar nova transação
               },
             ),
           ],
@@ -53,7 +63,8 @@ class _minhasdoacoesState extends State<minhasdoacoes> {
       ),
     );
   }
-  Widget _buildSearchField(){
+
+  Widget _buildSearchField() {
     return TextField(
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.search, color: Colors.deepPurpleAccent),
@@ -62,20 +73,16 @@ class _minhasdoacoesState extends State<minhasdoacoes> {
           borderRadius: BorderRadius.circular(100),
           borderSide: const BorderSide(color: Colors.deepPurpleAccent),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(100),
-          borderSide: const BorderSide(color: Colors.deepPurpleAccent),
-        ),
       ),
     );
   }
-  Widget _buildTransactionList(){
+
+  Widget _buildTransactionList() {
     return ListView.builder(
-      itemCount: Database.doacoes.length,
-      itemBuilder: (context, index){
-        return CardMinhasdoacoes(transacao: Database.doacoes[index]);
+      itemCount: transacoes.length,
+      itemBuilder: (context, index) {
+        return CardMinhasdoacoes(transacao: transacoes[index]);
       },
     );
   }
 }
-
