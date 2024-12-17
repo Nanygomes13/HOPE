@@ -1,4 +1,4 @@
-# hopee
+# HOPE
 
 A new Flutter project.
 
