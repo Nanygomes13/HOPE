@@ -17,7 +17,6 @@ class Transacao {
     required this.hora,
   });
 
-
   Map<String, dynamic> toMap() {
     return {
       'id': id,

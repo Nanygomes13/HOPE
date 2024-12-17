@@ -5,15 +5,12 @@ import 'package:hopee/transacaoDao.dart';
 class CadastroTransacao extends StatefulWidget {
   const CadastroTransacao({super.key});
 
-
   @override
   State<CadastroTransacao> createState() => _CadastroTransacaoState();
 }
 
-
 class _CadastroTransacaoState extends State<CadastroTransacao> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
 
   TextEditingController _nomeController = TextEditingController();
   TextEditingController _instituicaoController = TextEditingController();
@@ -21,7 +18,6 @@ class _CadastroTransacaoState extends State<CadastroTransacao> {
   TextEditingController _pixController = TextEditingController();
   TextEditingController _dataController = TextEditingController();
   TextEditingController _horaController = TextEditingController();
-
 
   void _saveTransaction() async {
     if (_formKey.currentState!.validate()) {
