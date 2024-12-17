@@ -233,7 +233,7 @@ class _cadastroState extends State<cadastro> {
   }
 
   Future<void> onPressed() async {
-    // Validar o Form
+
     if (formKey.currentState!.validate()) {
       String email = emailController.text;
       String senha = senhaController.text;
