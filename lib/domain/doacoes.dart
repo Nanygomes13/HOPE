@@ -1,23 +1,23 @@
 class Doacoes {
   late int id;
   late String imagem;
-  String? titulo;
-  String? subtitulo;
-  String? valor;
+  late String titulo;
+  late String subtitulo;
+  late double valor;
 
   Doacoes({
     required this.imagem,
-    this.titulo,
-    this.subtitulo,
-    this.valor,
+    required this.titulo,
+    required this.subtitulo,
+    required this.valor,
   });
 
   Doacoes.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    imagem = json['imagem'];
-    titulo = json['titulo'];
-    subtitulo = json['subtitulo'];
-    valor = json['valor'];
+    id = json['id'] ?? 0;
+    imagem = json['imagem'] ?? '';
+    titulo = json['titulo'] ?? '';
+    subtitulo = json['subtitulo'] ?? '';
+    valor = json['valor'] ?? 0;
   }
 
   Map<String, dynamic> toJson() {
