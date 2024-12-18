@@ -34,15 +34,15 @@ class DBHelper {
     await db.execute(sql);
 
     sql =
-    "INSERT INTO CARD2 (imagem, valor) VALUES ('images/card-4.png', '577000.00');";
+    "INSERT INTO CARD2 (imagem, valor) VALUES ('images/card-4.png', '577000');";
     await db.execute(sql);
 
     sql =
-    "INSERT INTO CARD2 (imagem, valor) VALUES ('images/card-5.png', '127000.00');";
+    "INSERT INTO CARD2 (imagem, valor) VALUES ('images/card-5.png', '127000');";
     await db.execute(sql);
 
     sql =
-    "INSERT INTO CARD2 (imagem, valor) VALUES ('images/card-6.png', '10990.00');";
+    "INSERT INTO CARD2 (imagem, valor) VALUES ('images/card-6.png', '10990');";
     await db.execute(sql);
   }
 }
