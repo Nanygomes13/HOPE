@@ -131,7 +131,7 @@ class _CadastroState extends State<Cadastro> {
       valor: 0,
     );
 
-    await CardsDao().salvarDoacao(doacao);
+    await CardsDao().salvarDoacao(doacao, 1);
     Navigator.pop(context);
   }
 }

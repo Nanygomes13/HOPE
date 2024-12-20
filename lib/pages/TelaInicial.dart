@@ -1,8 +1,8 @@
 import 'package:hopee/db/cards_dao.dart';
 import 'package:flutter/material.dart';
 import 'package:hopee/domain/doacoes.dart';
+import 'package:hopee/pages/Cadastro.dart';
 import 'package:hopee/pages/TelaBuscar.dart';
-import 'package:hopee/pages/Cadastro.dart'; // Tela de cadastro
 
 
 class TelaInicial extends StatefulWidget {
@@ -32,221 +32,264 @@ class _TelaInicialState extends State<TelaInicial> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: buildAppBar(),
-        floatingActionButton: buildFloatingActionButton(),
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(
+              Icons.menu,
+              color: Colors.white,
+              size: 36,
+            ),
+            onPressed: () {
+            },
+          ),
+          toolbarHeight: 60,
+          backgroundColor: Colors.deepPurpleAccent,
+          centerTitle: true,
+          title: Column(
+            children: [
+              Image.asset(
+                'images/hope.png',
+                width: 150,
+              ),
+            ],
+          ),
+        ),
         body: ListView(
           children: [
-            buildContainerPropaganda(),
-            // Lista de doações destacadas
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: doacoesCard1.length,
-              itemBuilder: (context, i) {
-                return buildCardDoacoes(doacoesCard1[i]);
-              },
-            ),
-            // Ranking de doações
-            const Padding(
-              padding: EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                color: Colors.deepPurpleAccent,
+              ),
+              child: Column(
                 children: [
-                  Text(
-                    'Ranking da Solidariedade',
-                    style: TextStyle(
-                      fontSize: 18,
+                  TextField(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return const TelaBuscar();
+                        }),
+                      );
+                    },
+                    decoration: InputDecoration(
+                      fillColor: const Color.fromARGB(255, 240, 205, 243),
+                      filled: true,
+                      prefixIcon: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return const TelaBuscar();
+                            }),
+                          );
+                        },
+                        child: const Icon(
+                          Icons.search,
+                          color: Colors.deepPurpleAccent,
+                        ),
+                      ),
+                      hintText: 'Pesquisar',
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24),
+                        borderSide: const BorderSide(
+                          color: Colors.deepPurpleAccent,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24),
+                        borderSide: const BorderSide(
+                          color: Colors.deepPurpleAccent,
+                        ),
+                      ),
                     ),
+                  ),
+                  const SizedBox(height: 25),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: 300,
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 4,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.asset(
+                                'images/card-1.jpg',
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-            SizedBox(
-              height: 150,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemCount: doacoesCard2.length,
-                itemBuilder: (context, i) {
-                  return buildCardRanking(doacoesCard2[i]);
-                },
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Destaques',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          'Ver tudo',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    height: 250,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: doacoesCard1.length,
+                      itemBuilder: (context, i) {
+                        return SizedBox(
+                          width: 200,
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 4,
+                            child: Column(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    topRight: Radius.circular(10),
+                                  ),
+                                  child: Image.asset(
+                                    doacoesCard1[i].imagem,
+                                    width: 200,
+                                    height: 127,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        doacoesCard1[i].titulo!,
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 7),
+                                      Text(doacoesCard1[i].subtitulo!),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Ranking da Solidariedade',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 25),
+                  SizedBox(
+                    height: 150,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: doacoesCard2.length,
+                      itemBuilder: (context, i) {
+                        return SizedBox(
+                          width: 150,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 100,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  elevation: 4,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Center(
+                                      child: Image.asset(
+                                        doacoesCard2[i].imagem,
+                                        width: 115,
+                                        height: 65,
+                                        fit: BoxFit.scaleDown,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Text('R\$ ${doacoesCard2[i].valor}'),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: 150,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              elevation: 4,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.asset(
+                                  'images/card-7.png',
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  // AppBar similar ao do professor
-  buildAppBar() {
-    return AppBar(
-      centerTitle: false,
-      backgroundColor: const Color(0xFF10397B),
-      actions: [
-        IconButton(
-          onPressed: () {
-            // Lógica de logout
-          },
-          icon: const Icon(
-            Icons.logout,
-            color: Colors.white,
-          ),
-        )
-      ],
-      title: const Text(
-        'Pesquisar',
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-
-  // FloatingActionButton para cadastro
-  buildFloatingActionButton() {
-    return FloatingActionButton(
-      backgroundColor: const Color(0xFF3F68F7),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return const Cadastro(); // Tela de cadastro
-            },
-          ),
-        ).then((value) async {
-          await loadData();
-          setState(() {});
-        });
-      },
-      child: const Icon(Icons.add, color: Colors.white),
-    );
-  }
-
-  // Container de propaganda
-  buildContainerPropaganda() {
-    return Container(
-      margin: const EdgeInsets.all(16),
-      color: Colors.deepPurple,
-      child: Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  const Text(
-                    'Tops destinos mais buscados',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  const Text(
-                    'Corre que ta rolando muita promoção',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.yellow),
-                    child: const Text(
-                      'EU QUERO!',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Image.network(
-            'https://img.freepik.com/fotos-gratis/casal-multirracial-com-bola-posando-na-praia_23-2148137988.jpg',
-            height: 170,
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Função para renderizar o card das doações
-  buildCardDoacoes(Doacoes doacao) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      elevation: 4,
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            ),
-            child: Image.asset(
-              doacao.imagem,
-              width: 200,
-              height: 127,
-              fit: BoxFit.fill,
-            ),
-          ),
-          const SizedBox(height: 5),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  doacao.titulo!,
-                  style: const TextStyle(fontSize: 15),
-                ),
-                const SizedBox(height: 7),
-                Text(doacao.subtitulo!),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Função para renderizar o card do ranking
-  buildCardRanking(Doacoes doacao) {
-    return SizedBox(
-      width: 150,
-      child: Column(
-        children: [
-          SizedBox(
-            height: 100,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              elevation: 4,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Image.asset(
-                    doacao.imagem,
-                    width: 115,
-                    height: 65,
-                    fit: BoxFit.scaleDown,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text('R\$ ${doacao.valor}'),
-        ],
       ),
     );
   }
