@@ -3,13 +3,13 @@ class Doacoes {
   late String imagem;
   late String titulo;
   late String subtitulo;
-  late double valor;
+  late double? valor;
 
   Doacoes({
     required this.imagem,
     required this.titulo,
     required this.subtitulo,
-    required this.valor,
+    this.valor,
   });
 
   Doacoes.fromJson(Map<String, dynamic> json) {

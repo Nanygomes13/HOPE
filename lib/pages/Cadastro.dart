@@ -128,7 +128,6 @@ class _CadastroState extends State<Cadastro> {
       imagem: imagem,
       titulo: titulo,
       subtitulo: subtitulo,
-      valor: 0,
     );
 
     await CardsDao().salvarDoacao(doacao, 1);
