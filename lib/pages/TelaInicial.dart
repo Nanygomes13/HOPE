@@ -144,9 +144,16 @@ class _TelaInicialState extends State<TelaInicial> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return const Cadastro();
+                            }),
+                          );
+                        },
                         child: const Text(
-                          'Ver tudo',
+                          'Mais',
                           style: TextStyle(
                             fontSize: 18,
                           ),

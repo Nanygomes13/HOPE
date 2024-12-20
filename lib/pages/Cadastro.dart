@@ -29,6 +29,7 @@ class _CadastroState extends State<Cadastro> {
       padding: const EdgeInsets.all(16),
       child: ListView(
         children: [
+          const SizedBox(height: 30),
           buildTextFormField(
             controller: imagemController,
             text: '"Caminho do Arquivo da Imagem',
@@ -41,7 +42,7 @@ class _CadastroState extends State<Cadastro> {
             controller: subtituloController,
             text: 'Subtitulo',
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 30),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.deepPurpleAccent,
@@ -94,18 +95,18 @@ class _CadastroState extends State<Cadastro> {
       title: const Text(
         'Nova Doação',
         style: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.w600,
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+        ),
       ),
-    ),
     );
   }
   buildInputDecoration(String name) {
     return InputDecoration(
       label: Text(name),
       floatingLabelStyle: TextStyle(
-      color: Colors.deepPurpleAccent,
-      fontWeight: FontWeight.w600,
+        color: Colors.deepPurpleAccent,
+        fontWeight: FontWeight.w600,
       ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
