@@ -7,6 +7,7 @@ class CardsDao {
   salvarDoacao(Doacoes doacao, int tipo) async {
     Database database = await DBHelper().initDB();
 
+
     if (tipo == 1) {
       database.insert('CARD1', doacao.toJson());
     } else if (tipo == 2) {
@@ -43,6 +44,5 @@ class CardsDao {
     return lista;
   }
 }
-
 
 

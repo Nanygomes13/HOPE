@@ -30,7 +30,7 @@ class DBHelper {
     await db.execute(sql);
 
     sql =
-        'CREATE TABLE CARD2 (id INTEGER PRIMARY KEY AUTOINCREMENT, imagem varchar(100),valor double);';
+    'CREATE TABLE CARD2 (id INTEGER PRIMARY KEY AUTOINCREMENT, imagem varchar(100),valor double);';
     await db.execute(sql);
 
     sql =

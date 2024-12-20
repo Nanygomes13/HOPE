@@ -15,14 +15,13 @@ class _CadastroState extends State<Cadastro> {
   final TextEditingController imagemController = TextEditingController();
   final TextEditingController tituloController = TextEditingController();
   final TextEditingController subtituloController = TextEditingController();
-  final TextEditingController valorController = TextEditingController();
 
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-          appBar: buildAppBar(),
-          body: buildBody(),
-        ),
+      child: Scaffold(
+        appBar: buildAppBar(),
+        body: buildBody(),
+      ),
     );
   }
   buildBody() {
@@ -35,21 +34,17 @@ class _CadastroState extends State<Cadastro> {
             text: '"Caminho do Arquivo da Imagem',
           ),
           buildTextFormField(
-            controller: cidadeController,
+            controller: tituloController,
             text: 'Título',
           ),
           buildTextFormField(
-            controller: tituloController,
+            controller: subtituloController,
             text: 'Subtitulo',
-          ),
-          buildTextFormField(
-            controller: tituloAnoController,
-            text: 'Valor',
           ),
           const SizedBox(height: 8),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Colors.deepPurpleAccent,
+              backgroundColor: Colors.deepPurpleAccent,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0),
               ),
@@ -78,7 +73,7 @@ class _CadastroState extends State<Cadastro> {
         controller: controller,
         validator: fieldValidator,
         decoration: buildInputDecoration(text),
-        cursorColor: const Colors.deepPurpleAccent,
+        cursorColor: Colors.deepPurpleAccent,
       ),
     );
   }
@@ -92,25 +87,25 @@ class _CadastroState extends State<Cadastro> {
   buildAppBar() {
     return AppBar(
       centerTitle: false,
-      backgroundColor: const Colors.deepPurpleAccent,
+      backgroundColor: Colors.deepPurpleAccent,
       iconTheme: const IconThemeData(
         color: Colors.white,
       ),
       title: const Text(
-        'Nova Doação'',
+        'Nova Doação',
         style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w600,
-        ),
+        color: Colors.white,
+        fontWeight: FontWeight.w600,
       ),
+    ),
     );
   }
   buildInputDecoration(String name) {
     return InputDecoration(
       label: Text(name),
-      floatingLabelStyle: (
-        color: const Colors.deepPurpleAccent,
-        fontWeight: FontWeight.w600,
+      floatingLabelStyle: TextStyle(
+      color: Colors.deepPurpleAccent,
+      fontWeight: FontWeight.w600,
       ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
@@ -128,16 +123,15 @@ class _CadastroState extends State<Cadastro> {
     String imagem = imagemController.text;
     String titulo = tituloController.text;
     String subtitulo = subtituloController.text;
-    String valor = valorController.text;
 
     Doacoes doacao = Doacoes(
       imagem: imagem,
       titulo: titulo,
       subtitulo: subtitulo,
-      valor: valor,
+      valor: 0,
     );
 
-    await cards_dao().salvarDoacoes(doacao);
+    await CardsDao().salvarDoacao(doacao);
     Navigator.pop(context);
   }
 }
