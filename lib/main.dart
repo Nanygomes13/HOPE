@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'pages/TelaInicial.dart';
+import 'package:hopee/splash_page.dart';
+
 
 void main() {
   runApp(
     const MaterialApp(
-      home: TelaInicial(),
+      home: SplashPage(),
     ),
   );
 }
