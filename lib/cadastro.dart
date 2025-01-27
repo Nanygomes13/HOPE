@@ -87,7 +87,6 @@ class _cadastroState extends State<cadastro> {
                 ),
               ),
               SizedBox(height: 10),
-              SizedBox(height: 10),
               TextFormField(
                 controller: telefoneController,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -100,8 +99,8 @@ class _cadastroState extends State<cadastro> {
                 },
                 cursorColor: const Color(0xFF7C4DFF),
                 decoration: buildInputDecoration(
-                  'Telefone',
-                  Icons.phone,
+                  'Endereço',
+                  Icons.home_outlined,
                 ),
               ),
               SizedBox(height: 10),

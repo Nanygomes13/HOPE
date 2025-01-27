@@ -98,7 +98,7 @@ class _Tela_entrarState extends State<Tela_entrar> {
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: onPressed,
+                  onPressed: () => onPressed(context),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF7C4DFF),
                     shape: RoundedRectangleBorder(
@@ -187,7 +187,7 @@ class _Tela_entrarState extends State<Tela_entrar> {
     );
   }
 
-  Future<void> onPressed() async {
+  Future<void> onPressed(context) async {
     if (formKey.currentState!.validate()) {
       String email = emailController.text;
       String senha = senhaController.text;
