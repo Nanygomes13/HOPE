@@ -69,7 +69,7 @@ class _AlimentosState extends State<Alimentos> {
               ),
               SizedBox(height: 30),
               TextFormField(
-                initialValue: 'Hiper Natacha, São Sebastião - AL',
+                initialValue: 'Feira Grande - AL',
                 decoration: InputDecoration(
                   labelText: 'Endereço',
                   suffixIcon: IconButton(
