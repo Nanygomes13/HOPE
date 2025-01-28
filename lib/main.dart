@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'pages/TelaInicial.dart';
+import 'pages/Alimentos.dart';
 
 void main() {
   runApp(
     const MaterialApp(
-      home: TelaInicial(),
+      home: Alimentos(),
     ),
   );
 }
