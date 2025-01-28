@@ -12,10 +12,10 @@ class DoacaoAlimentos {
   });
 
   DoacaoAlimentos.fromJson(Map<String, dynamic> json) {
-    nome_alimento = json['nome_alimento'];
-    quant = json['quant'];
-    endereco = json['endereco'];
-    prazo = json['prazo'];
+    nome_alimento = json['nome_alimento'] ?? '';
+    quant = json['quant'] ?? 0;
+    endereco = json['endereco'] ?? '';
+    prazo = json['prazo'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
