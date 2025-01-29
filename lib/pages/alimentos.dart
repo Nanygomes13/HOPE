@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hopee/pages/agradecimento.dart';
+import 'package:hopee/db/alimentos_dao.dart';
+import 'package:hopee/domain/doacao_alimentos.dart';
 
 class Alimentos extends StatefulWidget {
   const Alimentos({super.key});
@@ -9,6 +11,19 @@ class Alimentos extends StatefulWidget {
 }
 
 class _AlimentosState extends State<Alimentos> {
+  List<DoacaoAlimentos> alimentos = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    alimentos = await AlimentosDao().listarAlimentos();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

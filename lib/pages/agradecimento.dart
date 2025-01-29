@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hopee/pages/alimentos.dart';
 
 class agradecimento extends StatefulWidget {
   const agradecimento({super.key});
