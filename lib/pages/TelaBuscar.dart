@@ -93,7 +93,7 @@ class _TelaBuscarState extends State<TelaBuscar> {
               child: SizedBox(
                 width: 300,
                 child: Text(
-                  'Digite alguma palavra relacionada à causa que você procura.',
+                  'Digite alguma palavra-chave relacionada à causa que você procura.',
                   style: TextStyle(
                     fontSize: 14,
                   ),
