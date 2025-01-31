@@ -16,6 +16,7 @@ class _CadastroState extends State<Cadastro> {
   final TextEditingController tituloController = TextEditingController();
   final TextEditingController subtituloController = TextEditingController();
 
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(

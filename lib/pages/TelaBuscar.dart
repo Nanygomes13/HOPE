@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hopee/pages/TelaInicial.dart';
+import 'package:hopee/domain/news.dart';
+import 'package:hopee/api/news_api.dart';
 
 class TelaBuscar extends StatefulWidget {
   const TelaBuscar({super.key});
@@ -9,6 +11,9 @@ class TelaBuscar extends StatefulWidget {
 }
 
 class _TelaBuscarState extends State<TelaBuscar> {
+
+  /*TextEditingController newsController = TextEditingController();*/
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -101,7 +106,7 @@ class _TelaBuscarState extends State<TelaBuscar> {
                 ),
               ),
             ),
-          ],
+          ]
         ),
       ),
     );
