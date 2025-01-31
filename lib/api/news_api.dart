@@ -8,7 +8,7 @@ class NewsApi {
 
   final dio = Dio();
 
-  Future<News> findAddressByKeyword(String keyword) async {
+  Future<List> findAddressByKeyword(String keyword) async {
     final response = await dio.get(
         '$domain',
         queryParameters: {
