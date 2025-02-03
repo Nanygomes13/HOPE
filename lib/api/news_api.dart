@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart';
 import 'package:hopee/domain/news.dart';
 import 'package:dio/dio.dart';
 
@@ -8,21 +9,27 @@ class NewsApi {
 
   final dio = Dio();
 
-  Future<List> findAddressByKeyword(String keyword) async {
+  Future<List<Article>> findArticlesByKeyword(String keyword) async {
     final response = await dio.get(
         '$domain',
         queryParameters: {
-          'q': '$keyword AND (doação OR caridade OR arrecadação OR voluntariado)',
+          'q': keyword,//'$keyword AND (doação OR caridade OR arrecadação OR voluntariado)',
           'apiKey': '$apiKey',
           'language': 'pt',
           'sortBy': 'publishedAt',
         }
     );
 
-    List<dynamic> news = response.data['articles'];
+    List<dynamic> artigosJson = response.data['articles'];
+    List<Article> artigos = [];
 
-    print(response);
-    return news;
+    for(var json in artigosJson){
+      Article a = Article.fromJson(json);
+      artigos.add(a);
+    }
+
+    print(artigos);
+    return artigos;
 
   }
 }
