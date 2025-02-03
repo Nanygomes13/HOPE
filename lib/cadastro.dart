@@ -17,6 +17,7 @@ class _cadastroState extends State<cadastro> {
   TextEditingController nomeController = TextEditingController();
   TextEditingController telefoneController = TextEditingController();
   TextEditingController confirmSenhaController = TextEditingController();
+  TextEditingController enderecoController = TextEditingController();
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -99,9 +100,26 @@ class _cadastroState extends State<cadastro> {
                 },
                 cursorColor: const Color(0xFF7C4DFF),
                 decoration: buildInputDecoration(
-                  'Endereço',
-                  Icons.home_outlined,
+                  'Telefone',
+                  Icons.phone_android,
+                  suffixIcon: IconButton(
+                    onPressed: onPressedCepButton,
+                    icon: const Icon(Icons.search),
+                  ),
                 ),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: enderecoController,
+                validator: (value) {
+                  if (value!.isNotEmpty) {
+                    return null;
+                  } else {
+                    return "Você precisa digitar um endereço válido!";
+                  }
+                },
+                decoration: buildInputDecoration('Endereço'),
+                cursorColor: const Color(0xFF10397B),
               ),
               SizedBox(height: 10),
               TextFormField(
@@ -138,7 +156,7 @@ class _cadastroState extends State<cadastro> {
                   'Confirmação de Senha',
                   Icons.lock_outline,
                 ),
-                cursorColor: const Color(0xFF10397B),
+                cursorColor: const Color(0xFF7C4DFF),
               ),
               SizedBox(height: 20),
               Row(
@@ -201,8 +219,9 @@ class _cadastroState extends State<cadastro> {
     );
   }
 
-  buildInputDecoration(String label, IconData iconData) {
+  buildInputDecoration(String label, IconData iconData,  {Widget? suffixIcon}) {
     return InputDecoration(
+      suffixIcon: suffixIcon,
       prefixIcon: Icon(
         iconData,
         color: Colors.deepPurpleAccent,
@@ -240,6 +259,16 @@ class _cadastroState extends State<cadastro> {
       User user = User(email, senha);
       UserDao().saveUser(user);
       Navigator.pop(context);
+    }
+  }
+
+  Future<void> onPressedCepButton() async {
+    String cep = telefoneController.text;
+    try {
+      Address address = await AddressApi().findAddressByCep(cep);
+      enderecoController.text = address.street;
+    } catch (e) {
+      showSnackBar('Ocorreu um erro inesperado!');
     }
   }
 }
