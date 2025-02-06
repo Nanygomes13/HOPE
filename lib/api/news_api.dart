@@ -1,10 +1,9 @@
-import 'package:flutter/rendering.dart';
-import 'package:hopee/domain/news.dart';
+import 'package:hopee/domain/article.dart';
 import 'package:dio/dio.dart';
 
 class NewsApi {
   final domain = 'https://newsapi.org/v2/everything';
-  final String keyword = 'doação de bens materiais" OR "dinheiro" OR "alimentos';
+  final String keyword = 'doação OR caridade OR arrecadação OR voluntariado';
   final String apiKey = 'caca8ab1cd954f0599d500ae67b5dd93';
 
   final dio = Dio();
@@ -13,7 +12,7 @@ class NewsApi {
     final response = await dio.get(
         '$domain',
         queryParameters: {
-          'q': keyword,//'$keyword AND (doação OR caridade OR arrecadação OR voluntariado)',
+          'q': keyword,
           'apiKey': '$apiKey',
           'language': 'pt',
           'sortBy': 'publishedAt',

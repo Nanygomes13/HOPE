@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hopee/pages/TelaInicial.dart';
-import 'package:hopee/domain/news.dart';
+import 'package:hopee/domain/article.dart';
 import 'package:hopee/api/news_api.dart';
 
 class TelaBuscar extends StatefulWidget {
@@ -11,8 +11,6 @@ class TelaBuscar extends StatefulWidget {
 }
 
 class _TelaBuscarState extends State<TelaBuscar> {
-
-  /*TextEditingController newsController = TextEditingController();*/
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +96,7 @@ class _TelaBuscarState extends State<TelaBuscar> {
               child: SizedBox(
                 width: 300,
                 child: Text(
-                  'Digite alguma palavra-chave relacionada à causa que você procura.',
+                  'Digite uma palavra-chave para pesquisar.',
                   style: TextStyle(
                     fontSize: 14,
                   ),
