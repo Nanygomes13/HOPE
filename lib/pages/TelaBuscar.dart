@@ -11,6 +11,9 @@ class TelaBuscar extends StatefulWidget {
 }
 
 class _TelaBuscarState extends State<TelaBuscar> {
+  TextEditingController _searchController = TextEditingController();
+  String _statusMessage = "Quem você deseja ajudar hoje?";
+  bool _hasError = false;
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +33,7 @@ class _TelaBuscarState extends State<TelaBuscar> {
                       size: 32,
                     ),
                     onPressed: () {
-                      Navigator.pop(
-                          context,
-                        MaterialPageRoute(builder: (context) {
-                          return const TelaInicial();
-                        }),
-                      );
+                      Navigator.pop(context);
                     },
                   ),
                   const SizedBox(width: 10),
@@ -43,11 +41,13 @@ class _TelaBuscarState extends State<TelaBuscar> {
                     child: SizedBox(
                       height: 50,
                       child: TextField(
+                        controller: _searchController,
                         decoration: InputDecoration(
                           fillColor: const Color.fromARGB(255, 240, 205, 243),
                           filled: true,
-                          prefixIcon: const Icon(
-                            Icons.search,
+                          prefixIcon: IconButton(
+                            onPressed: onPressedSearchButton,
+                            icon: const Icon(Icons.search),
                             color: Colors.deepPurpleAccent,
                           ),
                           hintText: 'Pesquisar',
@@ -73,40 +73,84 @@ class _TelaBuscarState extends State<TelaBuscar> {
               ),
             ),
             const SizedBox(height: 30),
-            Center(
-              child: Image.asset(
-                'images/busca.png',
-                width: 250,
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-            const SizedBox(height: 15),
-            const Center(
-              child: Text(
-                'Quem você deseja ajudar hoje?',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Center(
-              child: SizedBox(
-                width: 300,
+            if (_hasError) {
+              Center(
                 child: Text(
-                  'Digite uma palavra-chave para pesquisar.',
-                  style: TextStyle(
-                    fontSize: 14,
+                  "Ocorreu um erro inesperado.",
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
-            ),
-          ]
+              } else {
+              Center(
+                child: Image.asset(
+                  'images/busca.png',
+                  width: 250,
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
+              const SizedBox(height: 15),
+              Center(
+                child: Text(
+                  _statusMessage,
+                  style: const TextStyle(
+                    fontSize: 20,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Center(
+                child: SizedBox(
+                  width: 300,
+                  child: Text(
+                    'Digite uma palavra-chave para pesquisar.',
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            },
+          ],
         ),
       ),
     );
+  }
+
+  Future<void> onPressedSearchButton() async {
+    String keyword = _searchController.text;
+
+    if (keyword.isEmpty) {
+      setState(() {
+        _statusMessage = "Nenhum resultado encontrado.";
+        _hasError = false;
+      });
+      return;
+    }
+
+    try {
+      List<Article> articles = await NewsApi().findArticlesByKeyword(keyword);
+
+      if (articles.isEmpty) {
+        setState(() {
+          _statusMessage = "Nenhum resultado encontrado.";
+          _hasError = false;
+        });
+      } else {
+        for (var article in articles) {
+          print(article.toString());
+        }
+      }
+    } catch (e) {
+      setState(() {
+        _hasError = true;
+      });
+    }
   }
 }
