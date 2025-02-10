@@ -1,10 +1,10 @@
-class local {
+class Telefone {
   String? state;
   List<String>? cities;
 
-  local({this.state, this.cities});
+  Telefone({this.state, this.cities});
 
-  local.fromJson(Map<String, dynamic> json) {
+  Telefone.fromJson(Map<String, dynamic> json) {
     state = json['state'];
     cities = json['cities'].cast<String>();
   }

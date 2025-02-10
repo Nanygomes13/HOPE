@@ -6,6 +6,8 @@ import 'package:hopee/db/user_dao.dart';
 import 'package:hopee/destaque.dart';
 import 'package:path/path.dart';
 
+import 'db/pacote_dao.dart';
+
 class Tela_entrar extends StatefulWidget {
   const Tela_entrar({super.key});
 

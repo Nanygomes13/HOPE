@@ -1,8 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hopee/db/user_dao.dart';
+import 'package:hopee/domain/local.dart';
+import 'package:hopee/domain/telefone.dart';
 import 'package:hopee/domain/user.dart';
 import 'package:hopee/login.dart';
+
+import 'api/Telefone_api.dart';
 
 class cadastro extends StatefulWidget {
   const cadastro({super.key});
@@ -118,8 +122,8 @@ class _cadastroState extends State<cadastro> {
                     return "Você precisa digitar um endereço válido!";
                   }
                 },
-                decoration: buildInputDecoration('Endereço'),
-                cursorColor: const Color(0xFF10397B),
+                decoration: buildInputDecoration('Endereço', Icons.label),
+                cursorColor: const Color(0xFF7C4DFF),
               ),
               SizedBox(height: 10),
               TextFormField(
@@ -263,12 +267,22 @@ class _cadastroState extends State<cadastro> {
   }
 
   Future<void> onPressedCepButton() async {
-    String cep = telefoneController.text;
+
+   String ddd = telefoneController.text;
     try {
-      Address address = await AddressApi().findAddressByCep(cep);
-      enderecoController.text = address.street;
+      Local local = await TelefoneApi().findTelefoneByDdd(ddd);
+      enderecoController.text = local.state!;
     } catch (e) {
       showSnackBar('Ocorreu um erro inesperado!');
     }
+
+  }
+
+  showSnackBar(String snackBarMessage) {
+    SnackBar snackBar = SnackBar(
+      content: Text(snackBarMessage),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
