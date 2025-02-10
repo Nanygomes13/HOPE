@@ -22,7 +22,7 @@ class DBHelper {
     await db.execute(sql);
 
     sql =
-    "INSERT INTO MATERIAIS (nome_materiais, quant, endereco, prazo) VALUES ('Arroz, feijão, farinha, açúcar e sal', 5, 'Feira Grande - AL', '2 dias úteis');";
+    "INSERT INTO MATERIAIS (nome_materiais, quant, endereco, prazo) VALUES ('Calça jeans, ventilador e camisa polo', 3, 'Arapiraca - AL', '7 dias úteis');";
     await db.execute(sql);
   }
 }

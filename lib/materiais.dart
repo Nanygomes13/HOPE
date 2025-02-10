@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:hopee/agradecimento.dart';
 import 'package:hopee/materiais_dao.dart';
 import 'package:hopee/doacao_materiais.dart';
+import 'package:hopee/map_page.dart';
 
 class Materiais extends StatefulWidget {
   const Materiais({super.key});
@@ -42,7 +44,7 @@ class _MateriaisState extends State<Materiais> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Os dados da sua doação',
+                'Dados da sua doação',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 45),
@@ -51,9 +53,9 @@ class _MateriaisState extends State<Materiais> {
                   Expanded(
                     flex: 2,
                     child: TextFormField(
-                      initialValue: 'Arroz, feijão, farinha, açúcar e sal',
+                      initialValue: 'Calça jeans, ventilador e camisa polo',
                       decoration: InputDecoration(
-                        labelText: 'Alimento(s)',
+                        labelText: 'Materias',
                         border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.purple),
                         ),
@@ -67,7 +69,7 @@ class _MateriaisState extends State<Materiais> {
                   Expanded(
                     flex: 1,
                     child: TextFormField(
-                      initialValue: '5',
+                      initialValue: '3',
                       decoration: InputDecoration(
                         labelText: 'Quant.',
                         border: OutlineInputBorder(
@@ -84,19 +86,27 @@ class _MateriaisState extends State<Materiais> {
               ),
               SizedBox(height: 30),
               TextFormField(
-                initialValue: 'Feira Grande - AL',
+                initialValue: 'Arapiraca - AL',
                 decoration: InputDecoration(
                   labelText: 'Endereço',
                   suffixIcon: IconButton(
                     icon: Icon(Icons.location_on, color: Colors.purple),
-                    onPressed: () {
-                      /*Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) {
-                      return const ();
-                      }),
-                    );*/
+
+                    onPressed: () async {
+
+                      String endereco = 'Arapiraca - AL';
+                      Location location = await locationFromAddress(endereco).then((locations) => locations.first);
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) {
+                              return MapPage(location: location);
+                            }
+                            ),
+                      );
                     },
+
                   ),
                   border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.purple),
@@ -108,7 +118,7 @@ class _MateriaisState extends State<Materiais> {
               ),
               SizedBox(height: 30),
               TextFormField(
-                initialValue: '2 dias úteis',
+                initialValue: '7 dias úteis',
                 decoration: InputDecoration(
                   labelText: 'Prazo',
                   border: OutlineInputBorder(

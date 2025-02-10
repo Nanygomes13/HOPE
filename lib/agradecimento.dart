@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hopee/materiais.dart';
 
 class agradecimento extends StatefulWidget {
   const agradecimento({super.key});

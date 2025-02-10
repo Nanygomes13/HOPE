@@ -15,6 +15,7 @@ class TransacaoDao {
 
     return List.generate(maps.length, (i) {
       return Transacao.fromMap(maps[i]);
-    });
+    }
+    );
   }
 }

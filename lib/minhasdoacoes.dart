@@ -45,7 +45,7 @@ class _MinhasDoacoesState extends State<MinhasDoacoes> {
                   context,
                   MaterialPageRoute(builder: (context) => const CadastroTransacao()),
                 );
-                _loadTransacoes(); // Atualiza a lista após adicionar nova transação
+                _loadTransacoes(); //
               },
             ),
           ],
