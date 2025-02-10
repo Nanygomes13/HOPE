@@ -33,7 +33,7 @@ class _CadastroState extends State<Cadastro> {
           const SizedBox(height: 30),
           buildTextFormField(
             controller: imagemController,
-            text: '"Caminho do Arquivo da Imagem',
+            text: 'Caminho do Arquivo da Imagem',
           ),
           buildTextFormField(
             controller: tituloController,

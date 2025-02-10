@@ -20,7 +20,7 @@ class _TelaBuscarState extends State<TelaBuscar> {
     return SafeArea(
       child: Scaffold(
         body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
@@ -52,7 +52,7 @@ class _TelaBuscarState extends State<TelaBuscar> {
                           ),
                           hintText: 'Pesquisar',
                           contentPadding:
-                          const EdgeInsets.symmetric(vertical: 10),
+                              const EdgeInsets.symmetric(vertical: 10),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(24),
                             borderSide: const BorderSide(
@@ -73,54 +73,62 @@ class _TelaBuscarState extends State<TelaBuscar> {
               ),
             ),
             const SizedBox(height: 30),
-            if (_hasError) {
-              Center(
-                child: Text(
-                  "Ocorreu um erro inesperado.",
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              } else {
-              Center(
-                child: Image.asset(
-                  'images/busca.png',
-                  width: 250,
-                  fit: BoxFit.fitWidth,
-                ),
-              ),
-              const SizedBox(height: 15),
-              Center(
-                child: Text(
-                  _statusMessage,
-                  style: const TextStyle(
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: 20),
-              const Center(
-                child: SizedBox(
-                  width: 300,
-                  child: Text(
-                    'Digite uma palavra-chave para pesquisar.',
-                    style: TextStyle(
-                      fontSize: 14,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            },
+            hasError(),
           ],
         ),
       ),
     );
+  }
+
+  Widget hasError() {
+    if (_hasError) {
+      return Center(
+        child: Text(
+          "Ocorreu um erro inesperado.",
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
+            color: Colors.black,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      );
+    } else {
+      return Column(
+        children: [
+          Center(
+            child: Image.asset(
+              'images/busca.png',
+              width: 250,
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+          const SizedBox(height: 15),
+          Center(
+            child: Text(
+              _statusMessage,
+              style: const TextStyle(
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: 20),
+          const Center(
+            child: SizedBox(
+              width: 300,
+              child: Text(
+                'Digite uma palavra-chave para pesquisar.',
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ],
+      );
+    }
   }
 
   Future<void> onPressedSearchButton() async {
@@ -129,8 +137,9 @@ class _TelaBuscarState extends State<TelaBuscar> {
     if (keyword.isEmpty) {
       setState(() {
         _statusMessage = "Nenhum resultado encontrado.";
-        _hasError = false;
+        _hasError = true;
       });
+
       return;
     }
 
