@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:hopee/pages/agradecimento.dart';
 import 'package:hopee/db/alimentos_dao.dart';
 import 'package:hopee/domain/doacao_alimentos.dart';
+import 'package:hopee/pages/map.dart';
 
 class Alimentos extends StatefulWidget {
   const Alimentos({super.key});
@@ -89,13 +91,16 @@ class _AlimentosState extends State<Alimentos> {
                   labelText: 'Endereço',
                   suffixIcon: IconButton(
                     icon: Icon(Icons.location_on, color: Colors.purple),
-                    onPressed: () {
-                      /*Navigator.push(
+
+                    onPressed: () async {
+                    String endereco = 'Feira Grande - AL';
+                    List<Location> locations = await locationFromAddress(endereco);
+
+                      Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) {
-                      return const ();
-                      }),
-                    );*/
+                      return MapPage(location: locations[0]);                      }),
+                    );
                     },
                   ),
                   border: OutlineInputBorder(
