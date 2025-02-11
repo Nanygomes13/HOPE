@@ -112,7 +112,7 @@ class _AlimentosState extends State<Alimentos> {
                     borderSide: BorderSide(color: Colors.purple),
                   ),
                 ),
-              )
+              ),
               SizedBox(height: 30),
               TextFormField(
                 initialValue: '2 dias úteis',
