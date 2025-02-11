@@ -6,11 +6,15 @@ class UserDao {
   Future<bool> autenticar(String username, String password) async {
     Database db = await DBHelper().initDB();
 
+
     String sql = 'SELECT * FROM USER '
         'WHERE USERNAME = ? AND PASSWORD = ?;';
     var result = await db.rawQuery(sql, [username, password]);
 
     print('Resultado da autenticação: $result'); // Debug
+
+    await Future.delayed(Duration(seconds: 4));
+
     return result.isNotEmpty;
   }
 

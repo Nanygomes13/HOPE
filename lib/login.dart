@@ -4,6 +4,7 @@ import 'package:hopee/cadastro.dart';
 import 'package:hopee/db/shared_prefs.dart';
 import 'package:hopee/db/user_dao.dart';
 import 'package:hopee/destaque.dart';
+import 'package:hopee/pages/TelaInicial.dart';
 import 'package:path/path.dart';
 
 import 'db/pacote_dao.dart';
@@ -20,6 +21,7 @@ class _Tela_entrarState extends State<Tela_entrar> {
   TextEditingController senhaController = TextEditingController();
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  Future<bool>? auth;
 
   @override
   Widget build(BuildContext context) {
@@ -99,28 +101,7 @@ class _Tela_entrarState extends State<Tela_entrar> {
                   alignment: Alignment(0.8, 0),
                 ),
                 SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () => onPressed(context),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF7C4DFF),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 32,
-                    ),
-                  ),
-                  child: const Text(
-                    'Entrar',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-
+                buildFutureBuilder(),
                 SizedBox(height: 15),
                 RichText(
                   text: TextSpan(
@@ -194,21 +175,76 @@ class _Tela_entrarState extends State<Tela_entrar> {
       String email = emailController.text;
       String senha = senhaController.text;
 
-      bool auth = await UserDao().autenticar(email, senha);
-      print(auth);
+      setState(() {
+        auth = UserDao().autenticar(email, senha);
+      });
 
-      if (auth) {
-        SharedPrefs().setUser(true);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Destaque(),
-          ),
-        );
 
-      } else {
-        print('E-mail e/ou Senha incorreto(s)');
-      }
+      // if (auth) {
+      //   SharedPrefs().setUser(true);
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (context) => Destaque(),
+      //     ),
+      //   );
+      // } else {
+      //   print('E-mail e/ou Senha incorreto(s)');
+      // }
     }
+  }
+
+  buildFutureBuilder() {
+    return FutureBuilder(
+      future: auth,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return buildButton(isLoading: true);
+        }
+
+        if (snapshot.hasData) {
+          bool authentication = snapshot.data!;
+          if (authentication) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return TelaInicial();
+                },
+              ),
+            );
+          }
+        }
+
+        return buildButton();
+      },
+    );
+
+  }
+
+  buildButton({bool isLoading = false}) {
+    return ElevatedButton(
+      onPressed: () => onPressed(context),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xFF7C4DFF),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4),
+        ),
+        padding: const EdgeInsets.symmetric(
+          vertical: 8,
+          horizontal: 32,
+        ),
+      ),
+      child: isLoading
+          ? Center(child: CircularProgressIndicator(color: Colors.white,))
+          : const Text(
+              'Entrar',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+    );
   }
 }
