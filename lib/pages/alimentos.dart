@@ -97,7 +97,6 @@ class _AlimentosState extends State<Alimentos> {
                     onPressed: () async {
                       String endereco = 'Feira Grande - AL';
                       List<Location> locations = await locationFromAddress(endereco);
-
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) {
