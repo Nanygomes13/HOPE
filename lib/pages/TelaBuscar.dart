@@ -15,6 +15,8 @@ class _TelaBuscarState extends State<TelaBuscar> {
   String _statusMessage = "Quem você deseja ajudar hoje?";
   bool _hasError = false;
 
+  List<Article> _articles = [];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -82,52 +84,67 @@ class _TelaBuscarState extends State<TelaBuscar> {
 
   Widget hasError() {
     if (_hasError) {
-      return Center(
-        child: Text(
-          "Ocorreu um erro inesperado.",
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-            color: Colors.black,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      );
-    } else {
-      return Column(
-        children: [
-          Center(
-            child: Image.asset(
-              'images/busca.png',
-              width: 250,
-              fit: BoxFit.fitWidth,
-            ),
-          ),
-          const SizedBox(height: 15),
-          Center(
-            child: Text(
-              _statusMessage,
+      return Expanded(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Ocorreu um erro inesperado.",
               style: const TextStyle(
                 fontSize: 20,
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
               ),
               textAlign: TextAlign.center,
             ),
-          ),
-          const SizedBox(height: 20),
-          const Center(
-            child: SizedBox(
-              width: 300,
+          ],
+        ),
+      );
+    } else {
+      if (_articles.isEmpty) {
+        return Column(
+          children: [
+            Center(
+              child: Image.asset(
+                'images/busca.png',
+                width: 250,
+                fit: BoxFit.fitWidth,
+              ),
+            ),
+            const SizedBox(height: 15),
+            Center(
               child: Text(
-                'Digite uma palavra-chave para pesquisar.',
-                style: TextStyle(
-                  fontSize: 14,
+                _statusMessage,
+                style: const TextStyle(
+                  fontSize: 20,
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
+            const SizedBox(height: 20),
+            const Center(
+              child: SizedBox(
+                width: 300,
+                child: Text(
+                  'Digite uma palavra-chave para pesquisar.',
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ],
+        );
+      } else {
+        return Expanded(
+          child: ListView.builder(
+            itemCount: _articles.length,
+            itemBuilder: (context, i) {
+            },
           ),
-        ],
-      );
+        );
+      }
     }
   }
 
@@ -138,6 +155,7 @@ class _TelaBuscarState extends State<TelaBuscar> {
       setState(() {
         _statusMessage = "Nenhum resultado encontrado.";
         _hasError = true;
+        _articles = [];
       });
 
       return;
@@ -150,15 +168,19 @@ class _TelaBuscarState extends State<TelaBuscar> {
         setState(() {
           _statusMessage = "Nenhum resultado encontrado.";
           _hasError = false;
+          _articles = [];
         });
       } else {
-        for (var article in articles) {
-          print(article.toString());
-        }
+        setState(() {
+          _articles = articles;
+          _statusMessage = "${articles.length} artigo(s) encontrado(s).";
+          _hasError = false;
+        });
       }
     } catch (e) {
       setState(() {
         _hasError = true;
+        _articles = [];
       });
     }
   }
