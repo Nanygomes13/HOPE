@@ -90,17 +90,20 @@ class _AlimentosState extends State<Alimentos> {
                 decoration: InputDecoration(
                   labelText: 'Endereço',
                   suffixIcon: IconButton(
-                    icon: Icon(Icons.location_on, color: Colors.purple),
-
+                    icon: Icon(
+                        Icons.location_on,
+                        color: Colors.purple,
+                    ),
                     onPressed: () async {
-                    String endereco = 'Feira Grande - AL';
-                    List<Location> locations = await locationFromAddress(endereco);
+                      String endereco = 'Feira Grande - AL';
+                      List<Location> locations = await locationFromAddress(endereco);
 
                       Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) {
-                      return MapPage(location: locations[0]);                      }),
-                    );
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return MapPage(location: locations[0]);
+                        }),
+                      );
                     },
                   ),
                   border: OutlineInputBorder(
@@ -110,7 +113,7 @@ class _AlimentosState extends State<Alimentos> {
                     borderSide: BorderSide(color: Colors.purple),
                   ),
                 ),
-              ),
+              )
               SizedBox(height: 30),
               TextFormField(
                 initialValue: '2 dias úteis',
