@@ -3,6 +3,8 @@
         android:label="hopee"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDjOq8g86O3j32uXbHyrcWYktxn0jtFFMM"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
