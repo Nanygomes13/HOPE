@@ -141,6 +141,7 @@ class _TelaBuscarState extends State<TelaBuscar> {
           child: ListView.builder(
             itemCount: _articles.length,
             itemBuilder: (context, i) {
+              final article = _articles[i];
             },
           ),
         );

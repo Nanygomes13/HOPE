@@ -38,9 +38,4 @@ class Article {
     data['content'] = this.content;
     return data;
   }
-
-  @override
-  String toString() {
-    return 'Article{description: $description, title: $title, author: $author, url: $url, urlToImage: $urlToImage, publishedAt: $publishedAt, content: $content}';
-  }
 }
