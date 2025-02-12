@@ -7,8 +7,7 @@ class UserDao {
     Database db = await DBHelper().initDB();
 
 
-    String sql = 'SELECT * FROM USER '
-        'WHERE USERNAME = ? AND PASSWORD = ?;';
+    String sql = 'SELECT * FROM USER WHERE USERNAME = ? AND PASSWORD = ?;';
     var result = await db.rawQuery(sql, [username, password]);
 
     print('Resultado da autenticação: $result'); // Debug

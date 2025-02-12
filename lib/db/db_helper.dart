@@ -44,5 +44,11 @@ class DBHelper {
     sql =
     "INSERT INTO CARD2 (imagem, valor) VALUES ('images/card-6.png', '10990');";
     await db.execute(sql);
+
+    sql = "CREATE TABLE USER (username varchar(100) PRIMARY KEY, password varchar(100))";
+    await db.execute(sql);
+
+    sql = "INSERT INTO USER (username, password) VALUES ('joao@gmail.com', '123456')";
+    await db.execute(sql);
   }
 }

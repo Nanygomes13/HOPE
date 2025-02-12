@@ -4,7 +4,6 @@ import 'package:hopee/db/user_dao.dart';
 import 'package:hopee/domain/local.dart';
 import 'package:hopee/domain/user.dart';
 import 'package:hopee/login.dart';
-
 import 'api/Telefone_api.dart';
 import 'domain/local.dart';
 
