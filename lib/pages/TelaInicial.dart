@@ -5,7 +5,6 @@ import 'package:hopee/domain/doacoes.dart';
 import 'package:hopee/pages/Cadastro.dart';
 import 'package:hopee/pages/TelaBuscar.dart';
 
-
 class TelaInicial extends StatefulWidget {
   const TelaInicial({super.key});
 
@@ -16,6 +15,7 @@ class TelaInicial extends StatefulWidget {
 class _TelaInicialState extends State<TelaInicial> {
   List<Doacoes> doacoesCard1 = [];
   List<Doacoes> doacoesCard2 = [];
+  TextEditingController controllerBuscar = TextEditingController();
 
   @override
   void initState() {
@@ -40,8 +40,7 @@ class _TelaInicialState extends State<TelaInicial> {
               color: Colors.white,
               size: 36,
             ),
-            onPressed: () {
-            },
+            onPressed: () {},
           ),
           toolbarHeight: 60,
           backgroundColor: Colors.deepPurpleAccent,
@@ -65,26 +64,12 @@ class _TelaInicialState extends State<TelaInicial> {
               child: Column(
                 children: [
                   TextField(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return const TelaBuscar();
-                        }),
-                      );
-                    },
+                    controller: controllerBuscar,
                     decoration: InputDecoration(
                       fillColor: const Color.fromARGB(255, 240, 205, 243),
                       filled: true,
                       prefixIcon: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) {
-                              return const TelaBuscar();
-                            }),
-                          );
-                        },
+                        onTap:onTapBusca,
                         child: const Icon(
                           Icons.search,
                           color: Colors.deepPurpleAccent,
@@ -195,7 +180,8 @@ class _TelaInicialState extends State<TelaInicial> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         doacoesCard1[i].titulo!,
@@ -274,7 +260,8 @@ class _TelaInicialState extends State<TelaInicial> {
                         child: SizedBox(
                           height: 150,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
                             child: Card(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -300,5 +287,21 @@ class _TelaInicialState extends State<TelaInicial> {
         ),
       ),
     );
+  }
+
+  void onTapBusca() {
+    if (controllerBuscar.text.isNotEmpty) {
+      String busca = controllerBuscar.text;
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return TelaBuscar(stringBusca: busca);
+        }),
+      );
+
+      controllerBuscar.text = '';
+
+    }
   }
 }

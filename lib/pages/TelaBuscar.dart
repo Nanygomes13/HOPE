@@ -4,7 +4,9 @@ import 'package:hopee/domain/article.dart';
 import 'package:hopee/api/news_api.dart';
 
 class TelaBuscar extends StatefulWidget {
-  const TelaBuscar({super.key});
+  String stringBusca;
+
+  TelaBuscar({super.key, this.stringBusca = ''});
 
   @override
   State<TelaBuscar> createState() => _TelaBuscarState();
@@ -12,17 +14,27 @@ class TelaBuscar extends StatefulWidget {
 
 class _TelaBuscarState extends State<TelaBuscar> {
   TextEditingController _searchController = TextEditingController();
-  String _statusMessage = "Quem você deseja ajudar hoje?";
-  bool _hasError = false;
 
-  List<Article> _articles = [];
+  Future<List<Article>>? _articlesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    initialSearch();
+  }
+
+  initialSearch() {
+    if (widget.stringBusca.isNotEmpty) {
+      _searchController.text = widget.stringBusca;
+      _articlesFuture = NewsApi().findArticlesByKeyword(widget.stringBusca);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Column(
-
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
@@ -75,112 +87,71 @@ class _TelaBuscarState extends State<TelaBuscar> {
               ),
             ),
             const SizedBox(height: 30),
-            hasError(),
+            FutureBuilder(
+              future: _articlesFuture,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Ocorreu um erro inesperado.",
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  );
+                }
+
+                if (snapshot.hasData) {
+                  if (snapshot.data == null) {
+                    return Text('Nenhum resultado encontrado');
+                  }
+
+                  List<Article> articles = snapshot.data ?? [];
+
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: articles.length,
+                      itemBuilder: (context, i) {
+                        var article = articles[i];
+
+                        return Card(
+                          child: Column(
+                            children: [
+                              Text(article.title),
+                              Text(article.description),
+                              Text(article.publishedAt),
+                              Text(article.author),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }
+
+                return Center(child: CircularProgressIndicator());
+              },
+            )
           ],
         ),
       ),
     );
   }
 
-  Widget hasError() {
-    if (_hasError) {
-      return Expanded(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Ocorreu um erro inesperado.",
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-                color: Colors.black,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      );
-    } else {
-      if (_articles.isEmpty) {
-        return Column(
-          children: [
-            Center(
-              child: Image.asset(
-                'images/busca.png',
-                width: 250,
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-            const SizedBox(height: 15),
-            Center(
-              child: Text(
-                _statusMessage,
-                style: const TextStyle(
-                  fontSize: 20,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Center(
-              child: SizedBox(
-                width: 300,
-                child: Text(
-                  'Digite uma palavra-chave para pesquisar.',
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          ],
-        );
-      } else {
-        return Expanded(
-          child: ListView.builder(
-            itemCount: _articles.length,
-            itemBuilder: (context, i) {
-            },
-          ),
-        );
-      }
-    }
-  }
-
   Future<void> onPressedSearchButton() async {
     String keyword = _searchController.text;
 
-    if (keyword.isEmpty) {
+    if (keyword.isNotEmpty) {
       setState(() {
-        _statusMessage = "Nenhum resultado encontrado.";
-        _hasError = true;
-        _articles = [];
-      });
-
-      return;
-    }
-
-    try {
-      List<Article> articles = await NewsApi().findArticlesByKeyword(keyword);
-
-      if (articles.isEmpty) {
-        setState(() {
-          _statusMessage = "Nenhum resultado encontrado.";
-          _hasError = false;
-          _articles = [];
-        });
-      } else {
-        setState(() {
-          _articles = articles;
-          _statusMessage = "${articles.length} artigo(s) encontrado(s).";
-          _hasError = false;
-        });
-      }
-    } catch (e) {
-      setState(() {
-        _hasError = true;
-        _articles = [];
+        _articlesFuture = NewsApi().findArticlesByKeyword(keyword);
       });
     }
   }
