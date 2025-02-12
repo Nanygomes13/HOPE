@@ -21,6 +21,7 @@ class MateriaisDao {
       lista.add(materiais);
     }
 
+    await Future.delayed(const Duration(seconds: 4));
     return lista;
   }
 }

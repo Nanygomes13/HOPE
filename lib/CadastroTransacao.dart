@@ -16,8 +16,6 @@ class _CadastroTransacaoState extends State<CadastroTransacao> {
   TextEditingController _instituicaoController = TextEditingController();
   TextEditingController _valorController = TextEditingController();
   TextEditingController _pixController = TextEditingController();
-  TextEditingController _dataController = TextEditingController();
-  TextEditingController _horaController = TextEditingController();
 
   void _saveTransaction() async {
     if (_formKey.currentState!.validate()) {
@@ -26,8 +24,6 @@ class _CadastroTransacaoState extends State<CadastroTransacao> {
         instituicao: _instituicaoController.text,
         valor: double.tryParse(_valorController.text) ?? 0.0,
         pix: _pixController.text,
-        data: _dataController.text,
-        hora: _horaController.text,
       );
 
       await TransacaoDao().salvarTransacao(novaTransacao);
@@ -52,8 +48,6 @@ class _CadastroTransacaoState extends State<CadastroTransacao> {
                 _buildTextFormField("Instituição", _instituicaoController),
                 _buildTextFormField("Valor", _valorController, isNumeric: true),
                 _buildTextFormField("PIX", _pixController),
-                _buildTextFormField("Data", _dataController, isReadOnly: true),
-                _buildTextFormField("Hora", _horaController, isReadOnly: true),
                 const SizedBox(height: 50),
                 ElevatedButton(
                   onPressed: _saveTransaction,

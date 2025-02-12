@@ -31,7 +31,7 @@ class _agradecimentoState extends State<agradecimento> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Image.asset(
-                    'images/gratidao.png',
+                    'lib/images/gratidao.png',
                     height: 300,
                   ),
                 ),

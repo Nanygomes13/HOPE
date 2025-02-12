@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:hopee/agradecimento.dart';
-import 'package:hopee/materiais_dao.dart';
-import 'package:hopee/doacao_materiais.dart';
 import 'package:hopee/map_page.dart';
 
 class Materiais extends StatefulWidget {
@@ -13,17 +11,10 @@ class Materiais extends StatefulWidget {
 }
 
 class _MateriaisState extends State<Materiais> {
-  List<DoacaoMateriais> materiais = [];
 
   @override
   void initState() {
     super.initState();
-    loadData();
-  }
-
-  loadData() async {
-    materiais = await MateriaisDao().listarMateriais();
-    setState(() {});
   }
 
   @override
@@ -32,22 +23,24 @@ class _MateriaisState extends State<Materiais> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'MATERIAIS',
+            'BENS MATERIAIS',
             style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
           elevation: 0,
         ),
         body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Dados da sua doação',
+                'Dados Da Doação',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 45),
+              SizedBox(height: 50),
+
+
               Row(
                 children: [
                   Expanded(
@@ -55,7 +48,7 @@ class _MateriaisState extends State<Materiais> {
                     child: TextFormField(
                       initialValue: 'Calça jeans, ventilador e camisa polo',
                       decoration: InputDecoration(
-                        labelText: 'Materias',
+                        labelText: 'Materiais',
                         border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.purple),
                         ),
@@ -91,22 +84,19 @@ class _MateriaisState extends State<Materiais> {
                   labelText: 'Endereço',
                   suffixIcon: IconButton(
                     icon: Icon(Icons.location_on, color: Colors.purple),
-
                     onPressed: () async {
-
                       String endereco = 'Arapiraca - AL';
                       Location location = await locationFromAddress(endereco).then((locations) => locations.first);
 
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) {
-                              return MapPage(location: location);
-                            }
-                            ),
+                          builder: (context) {
+                            return MapPage(location: location);
+                          },
+                        ),
                       );
                     },
-
                   ),
                   border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.purple),
@@ -130,40 +120,44 @@ class _MateriaisState extends State<Materiais> {
                 ),
               ),
               Spacer(),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const agradecimento();
-                        },
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Confirmar',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.purple,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                  ),
-                ),
-              ),
+
+              buildButton(),
             ],
           ),
         ),
       ),
     );
   }
+
+  buildButton() {
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return const agradecimento();
+            },
+          ),
+        );
+      },
+      child: Text(
+        'Confirmar',
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.purple,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        padding: EdgeInsets.symmetric(vertical: 16),
+      ),
+    );
+  }
+
+
 }

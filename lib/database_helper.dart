@@ -31,8 +31,6 @@ class DatabaseHelper {
         instituicao TEXT,
         valor REAL,
         pix TEXT,
-        data TEXT,
-        hora TEXT
       )
     ''');
   }
@@ -53,8 +51,6 @@ class DatabaseHelper {
         instituicao: maps[i]['instituicao'],
         valor: maps[i]['valor'],
         pix: maps[i]['pix'],
-        data: maps[i]['data'],
-        hora: maps[i]['hora'],
       );
     });
   }

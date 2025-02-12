@@ -4,8 +4,6 @@ class Transacao {
   String instituicao;
   double valor;
   String pix;
-  String data;
-  String hora;
 
   Transacao({
     this.id,
@@ -13,8 +11,7 @@ class Transacao {
     required this.instituicao,
     required this.valor,
     required this.pix,
-    required this.data,
-    required this.hora,
+
   });
 
   Map<String, dynamic> toMap() {
@@ -24,8 +21,7 @@ class Transacao {
       'instituicao': instituicao,
       'valor': valor,
       'pix': pix,
-      'data': data,
-      'hora': hora,
+
     };
   }
 
@@ -34,7 +30,6 @@ class Transacao {
         nome = map['nome'],
         instituicao = map['instituicao'],
         valor = map['valor'],
-        pix = map['pix'],
-        data = map['data'],
-        hora = map['hora'];
+        pix = map['pix'];
+
 }
