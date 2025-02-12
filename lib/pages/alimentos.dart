@@ -95,12 +95,15 @@ class _AlimentosState extends State<Alimentos> {
                         color: Colors.purple,
                     ),
                     onPressed: () async {
+
                       String endereco = 'Feira Grande - AL';
-                      List<Location> locations = await locationFromAddress(endereco);
+                      Location location = await locationFromAddress(endereco).then((locations) => locations.first);
+
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) {
-                          return MapPage(location: locations[0]);
+                        MaterialPageRoute(
+                            builder: (context) {
+                              return MapPage(location: location);
                         }),
                       );
                     },
