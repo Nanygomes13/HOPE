@@ -13,10 +13,11 @@ class Cadastro extends StatefulWidget {
 }
 
 class _CadastroState extends State<Cadastro> {
-  final TextEditingController nome_alimentoController = TextEditingController();
+  final TextEditingController nomeAlimentoController = TextEditingController();
   final TextEditingController quantController = TextEditingController();
   final TextEditingController enderecoController = TextEditingController();
   final TextEditingController prazoController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,65 +29,71 @@ class _CadastroState extends State<Cadastro> {
     );
   }
 
-  buildBody() {
+  Widget buildBody() {
     return Padding(
       padding: const EdgeInsets.all(16),
-      child: ListView(
-        children: [
-          const SizedBox(height: 30),
-          buildTextFormField(
-              controller: nome_alimentoController,
+      child: Form(
+        key: _formKey,
+        child: ListView(
+          children: [
+            const SizedBox(height: 30),
+            buildTextFormField(
+              controller: nomeAlimentoController,
               text: 'Alimento(s)',
-          ),
-          buildTextFormField(
+            ),
+            buildTextFormField(
               controller: quantController,
               text: 'Quant.',
               keyboardType: TextInputType.number,
-          ),
-          buildTextFormField(
+            ),
+            buildTextFormField(
               controller: enderecoController,
               text: 'Endereço',
               suffixIcon: IconButton(
                 icon: const Icon(
-                    Icons.location_on,
-                    color: Colors.deepPurpleAccent,
+                  Icons.location_on,
+                  color: Colors.deepPurpleAccent,
                 ),
                 onPressed: () async {
                   String endereco = enderecoController.text;
                   if (endereco.isNotEmpty) {
-                    Location location = await locationFromAddress(endereco).then((locations) => locations.first);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MapPage(location: location)),
-                    );
+                    List<Location> locations = await locationFromAddress(endereco);
+                    if (locations.isNotEmpty) {
+                      Location location = locations.first;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MapPage(location: location)),
+                      );
+                    }
                   }
-                }
+                },
               ),
             ),
-          buildTextFormField(
+            buildTextFormField(
               controller: prazoController,
               text: 'Prazo',
-          ),
-          const SizedBox(height: 30),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.deepPurpleAccent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0),
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepPurpleAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+              ),
+              onPressed: onPressed,
+              child: const Text(
+                'Salvar',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
               ),
             ),
-            onPressed: onPressed,
-            child: const Text(
-              'Salvar',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  buildTextFormField({
+  Widget buildTextFormField({
     required TextEditingController controller,
     required String text,
     TextInputType? keyboardType,
@@ -104,16 +111,14 @@ class _CadastroState extends State<Cadastro> {
     );
   }
 
-
   String? fieldValidator(value) {
     if (value == null || value.isEmpty) {
       return "Este campo não pode ser vazio!";
-    } else {
-      return null;
     }
+    return null;
   }
 
-  buildAppBar() {
+  AppBar buildAppBar() {
     return AppBar(
       centerTitle: false,
       backgroundColor: Colors.deepPurpleAccent,
@@ -130,10 +135,10 @@ class _CadastroState extends State<Cadastro> {
     );
   }
 
-  buildInputDecoration(String name, Widget? suffixIcon) {
+  InputDecoration buildInputDecoration(String name, Widget? suffixIcon) {
     return InputDecoration(
-      label: Text(name),
-      floatingLabelStyle: TextStyle(
+      labelText: name,
+      floatingLabelStyle: const TextStyle(
         color: Colors.deepPurpleAccent,
         fontWeight: FontWeight.w600,
       ),
@@ -147,33 +152,34 @@ class _CadastroState extends State<Cadastro> {
           color: Colors.deepPurpleAccent,
         ),
       ),
+      suffixIcon: suffixIcon,
     );
   }
-
 
   Future<void> onPressed() async {
-    String nomeAlimento = nome_alimentoController.text;
-    int quant = int.tryParse(quantController.text) ?? 0;
-    String endereco = enderecoController.text;
-    String prazo = prazoController.text;
+    if (_formKey.currentState?.validate() ?? false) {
+      String nomeAlimento = nomeAlimentoController.text;
+      int quant = int.tryParse(quantController.text) ?? 0;
+      String endereco = enderecoController.text;
+      String prazo = prazoController.text;
 
-    DoacaoAlimentos alimentos = DoacaoAlimentos(
-      nome_alimento: nomeAlimento,
-      quant: quant,
-      endereco: endereco,
-      prazo: prazo,
-    );
+      DoacaoAlimentos alimentos = DoacaoAlimentos(
+        nome_alimento: nomeAlimento,
+        quant: quant,
+        endereco: endereco,
+        prazo: prazo,
+      );
 
-    await AlimentosDao().salvarAlimentos(alimentos);
+      await AlimentosDao().salvarAlimentos(alimentos);
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
+      Navigator.push(
+        context,
+        MaterialPageRoute(
           builder: (context) {
             return agradecimento();
-          }
-      ),
-    );
+          },
+        ),
+      );
+    }
   }
 }
-
