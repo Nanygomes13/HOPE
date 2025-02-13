@@ -5,19 +5,24 @@ import 'package:hopee/db/alimentos_dao.dart';
 import 'package:hopee/domain/doacao_alimentos.dart';
 import 'package:hopee/pages/map.dart';
 
-class Cadastro extends StatefulWidget {
-  const Cadastro({super.key});
+class Alimentos extends StatefulWidget {
+  const Alimentos({super.key});
 
   @override
-  State<Cadastro> createState() => _CadastroState();
+  State<Alimentos> createState() => _AlimentosState();
 }
 
-class _CadastroState extends State<Cadastro> {
+class _AlimentosState extends State<Alimentos> {
   final TextEditingController nomeAlimentoController = TextEditingController();
   final TextEditingController quantController = TextEditingController();
   final TextEditingController enderecoController = TextEditingController();
   final TextEditingController prazoController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +45,7 @@ class _CadastroState extends State<Cadastro> {
             buildTextFormField(
               controller: nomeAlimentoController,
               text: 'Alimento(s)',
+              keyboardType: TextInputType.text,
             ),
             buildTextFormField(
               controller: quantController,
@@ -49,10 +55,11 @@ class _CadastroState extends State<Cadastro> {
             buildTextFormField(
               controller: enderecoController,
               text: 'Endereço',
+              keyboardType: TextInputType.text,
               suffixIcon: IconButton(
                 icon: const Icon(
                   Icons.location_on,
-                  color: Colors.deepPurpleAccent,
+                  color: Colors.deepPurple,
                 ),
                 onPressed: () async {
                   String endereco = enderecoController.text;
@@ -72,11 +79,12 @@ class _CadastroState extends State<Cadastro> {
             buildTextFormField(
               controller: prazoController,
               text: 'Prazo',
+              keyboardType: TextInputType.text,
             ),
             const SizedBox(height: 30),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurpleAccent,
+                backgroundColor: Colors.deepPurple,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
                 ),
@@ -84,7 +92,7 @@ class _CadastroState extends State<Cadastro> {
               onPressed: onPressed,
               child: const Text(
                 'Salvar',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),
               ),
             ),
           ],
@@ -103,10 +111,10 @@ class _CadastroState extends State<Cadastro> {
       padding: const EdgeInsets.only(bottom: 12),
       child: TextFormField(
         controller: controller,
-        keyboardType: keyboardType,
+        keyboardType: keyboardType ?? TextInputType.text,
         validator: fieldValidator,
         decoration: buildInputDecoration(text, suffixIcon),
-        cursorColor: Colors.deepPurpleAccent,
+        cursorColor: Colors.deepPurple,
       ),
     );
   }
@@ -120,14 +128,15 @@ class _CadastroState extends State<Cadastro> {
 
   AppBar buildAppBar() {
     return AppBar(
-      centerTitle: false,
-      backgroundColor: Colors.deepPurpleAccent,
+      centerTitle: true,
+      backgroundColor: Colors.deepPurple,
       iconTheme: const IconThemeData(
         color: Colors.white,
       ),
       title: const Text(
         'Nova Doação',
         style: TextStyle(
+          fontSize: 23,
           color: Colors.white,
           fontWeight: FontWeight.w600,
         ),
@@ -139,7 +148,7 @@ class _CadastroState extends State<Cadastro> {
     return InputDecoration(
       labelText: name,
       floatingLabelStyle: const TextStyle(
-        color: Colors.deepPurpleAccent,
+        color: Colors.deepPurple,
         fontWeight: FontWeight.w600,
       ),
       border: OutlineInputBorder(
@@ -149,7 +158,7 @@ class _CadastroState extends State<Cadastro> {
         borderRadius: BorderRadius.circular(8),
         borderSide: const BorderSide(
           width: 2,
-          color: Colors.deepPurpleAccent,
+          color: Colors.deepPurple,
         ),
       ),
       suffixIcon: suffixIcon,

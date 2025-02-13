@@ -23,62 +23,68 @@ class _TelaInicialState extends State<TelaInicial> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-            "Alimentos Cadastrados",
+          "Alimentos Cadastrados",
+          style: TextStyle(
+            fontSize: 23,
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
         ),
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: Colors.deepPurple,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
-      body: FutureBuilder<List<DoacaoAlimentos>>(
-        future: futureAlimentos,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-                child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            return const Center(
-                child: Text("Ocorreu um erro inesperado!",
-                ),
-            );
-          } else {
-            List<DoacaoAlimentos> alimentos = snapshot.data ?? [];
-            if (alimentos.isEmpty) {
+      body: SafeArea(
+        child: FutureBuilder<List<DoacaoAlimentos>>(
+          future: futureAlimentos,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
-                child: Text("Nenhum alimento cadastrado."),
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return const Center(
+                child: Text("Ocorreu um erro inesperado!"),
+              );
+            } else {
+              List<DoacaoAlimentos> alimentos = snapshot.data ?? [];
+              if (alimentos.isEmpty) {
+                return const Center(
+                  child: Text("Nenhum alimento cadastrado."),
+                );
+              }
+
+              return ListView.builder(
+                itemCount: alimentos.length,
+                itemBuilder: (context, index) {
+                  final alimento = alimentos[index];
+                  return Card(
+                    margin: const EdgeInsets.all(10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    elevation: 3,
+                    child: ListTile(
+                      title: Text(
+                        alimento.nome_alimento,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        "Quantidade: ${alimento.quant}\n"
+                            "Endereço: ${alimento.endereco}\n"
+                            "Prazo: ${alimento.prazo}",
+                      ),
+                    ),
+                  );
+                },
               );
             }
-
-            return ListView.builder(
-              itemCount: alimentos.length,
-              itemBuilder: (context, index) {
-                final alimento = alimentos[index];
-                return Card(
-                  margin: const EdgeInsets.all(10),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  elevation: 3,
-                  child: ListTile(
-                    title: Text(
-                      alimento.nome_alimento,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      "Quantidade: ${alimento.quant}\n"
-                      "Endereço: ${alimento.endereco}\n"
-                      "Prazo: ${alimento.prazo}",
-                    ),
-                    leading: const Icon(Icons.fastfood, color: Colors.deepPurpleAccent),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () {
-                      },
-                    ),
-                  ),
-                );
-              },
-            );
-          }
-        },
+          },
+        ),
       ),
     );
   }

@@ -13,7 +13,7 @@ class _agradecimentoState extends State<agradecimento> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.purple,
+      backgroundColor: Colors.deepPurple,
       body: SafeArea(
         child: Stack(
           children: [
@@ -25,7 +25,8 @@ class _agradecimentoState extends State<agradecimento> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => TelaInicial()),
+                        builder: (context) => TelaInicial(),
+                    ),
                   );
                 },
               ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pages/Alimentos.dart';
+import 'package:hopee/pages/alimentos.dart';
 
 void main() {
   runApp(
