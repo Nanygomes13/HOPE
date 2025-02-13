@@ -5,165 +5,175 @@ import 'package:hopee/db/alimentos_dao.dart';
 import 'package:hopee/domain/doacao_alimentos.dart';
 import 'package:hopee/pages/map.dart';
 
-class Alimentos extends StatefulWidget {
-  const Alimentos({super.key});
+class Cadastro extends StatefulWidget {
+  const Cadastro({super.key});
 
   @override
-  State<Alimentos> createState() => _AlimentosState();
+  State<Cadastro> createState() => _CadastroState();
 }
 
-class _AlimentosState extends State<Alimentos> {
-  List<DoacaoAlimentos> alimentos = [];
-
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
-
-  loadData() async {
-    alimentos = await AlimentosDao().listarAlimentos();
-    setState(() {});
-  }
+class _CadastroState extends State<Cadastro> {
+  final TextEditingController nome_alimentoController = TextEditingController();
+  final TextEditingController quantController = TextEditingController();
+  final TextEditingController enderecoController = TextEditingController();
+  final TextEditingController prazoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'ALIMENTOS',
-            style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+        appBar: buildAppBar(),
+        body: buildBody(),
+      ),
+    );
+  }
+
+  buildBody() {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: ListView(
+        children: [
+          const SizedBox(height: 30),
+          buildTextFormField(
+              controller: nome_alimentoController,
+              text: 'Alimento(s)',
           ),
-          centerTitle: true,
-          elevation: 0,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Os dados da sua doação',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 45),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: TextFormField(
-                      initialValue: 'Arroz, feijão, farinha, açúcar e sal',
-                      decoration: InputDecoration(
-                        labelText: 'Alimento(s)',
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.purple),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.purple),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    flex: 1,
-                    child: TextFormField(
-                      initialValue: '5',
-                      decoration: InputDecoration(
-                        labelText: 'Quant.',
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.purple),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.purple),
-                        ),
-                      ),
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 30),
-              TextFormField(
-                initialValue: 'Feira Grande - AL',
-                decoration: InputDecoration(
-                  labelText: 'Endereço',
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                        Icons.location_on,
-                        color: Colors.purple,
-                    ),
-                    onPressed: () async {
-
-                      String endereco = 'Feira Grande - AL';
-                      Location location = await locationFromAddress(endereco).then((locations) => locations.first);
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) {
-                              return MapPage(location: location);
-                        }),
-                      );
-                    },
-                  ),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.purple),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.purple),
-                  ),
+          buildTextFormField(
+              controller: quantController,
+              text: 'Quant.',
+              keyboardType: TextInputType.number,
+          ),
+          buildTextFormField(
+              controller: enderecoController,
+              text: 'Endereço',
+              suffixIcon: IconButton(
+                icon: const Icon(
+                    Icons.location_on,
+                    color: Colors.deepPurpleAccent,
                 ),
-              ),
-              SizedBox(height: 30),
-              TextFormField(
-                initialValue: '2 dias úteis',
-                decoration: InputDecoration(
-                  labelText: 'Prazo',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.purple),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.purple),
-                  ),
-                ),
-              ),
-              Spacer(),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
+                onPressed: () async {
+                  String endereco = enderecoController.text;
+                  if (endereco.isNotEmpty) {
+                    Location location = await locationFromAddress(endereco).then((locations) => locations.first);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const agradecimento();
-                        },
-                      ),
+                      MaterialPageRoute(builder: (context) => MapPage(location: location)),
                     );
-                  },
-                  child: Text(
-                    'Confirmar',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.purple,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                  ),
-                ),
+                  }
+                }
               ),
-            ],
+            ),
+          buildTextFormField(
+              controller: prazoController,
+              text: 'Prazo',
           ),
+          const SizedBox(height: 30),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.deepPurpleAccent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+            ),
+            onPressed: onPressed,
+            child: const Text(
+              'Salvar',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  buildTextFormField({
+    required TextEditingController controller,
+    required String text,
+    TextInputType? keyboardType,
+    Widget? suffixIcon,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: TextFormField(
+        controller: controller,
+        keyboardType: keyboardType,
+        validator: fieldValidator,
+        decoration: buildInputDecoration(text, suffixIcon),
+        cursorColor: Colors.deepPurpleAccent,
+      ),
+    );
+  }
+
+
+  String? fieldValidator(value) {
+    if (value == null || value.isEmpty) {
+      return "Este campo não pode ser vazio!";
+    } else {
+      return null;
+    }
+  }
+
+  buildAppBar() {
+    return AppBar(
+      centerTitle: false,
+      backgroundColor: Colors.deepPurpleAccent,
+      iconTheme: const IconThemeData(
+        color: Colors.white,
+      ),
+      title: const Text(
+        'Nova Doação',
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );
   }
+
+  buildInputDecoration(String name, Widget? suffixIcon) {
+    return InputDecoration(
+      label: Text(name),
+      floatingLabelStyle: TextStyle(
+        color: Colors.deepPurpleAccent,
+        fontWeight: FontWeight.w600,
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: const BorderSide(
+          width: 2,
+          color: Colors.deepPurpleAccent,
+        ),
+      ),
+    );
+  }
+
+
+  Future<void> onPressed() async {
+    String nomeAlimento = nome_alimentoController.text;
+    int quant = int.tryParse(quantController.text) ?? 0;
+    String endereco = enderecoController.text;
+    String prazo = prazoController.text;
+
+    DoacaoAlimentos alimentos = DoacaoAlimentos(
+      nome_alimento: nomeAlimento,
+      quant: quant,
+      endereco: endereco,
+      prazo: prazo,
+    );
+
+    await AlimentosDao().salvarAlimentos(alimentos);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) {
+            return agradecimento();
+          }
+      ),
+    );
+  }
 }
+

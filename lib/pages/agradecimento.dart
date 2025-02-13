@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hopee/pages/alimentos.dart';
+import 'package:hopee/pages/telaInicial.dart';
 
 class agradecimento extends StatefulWidget {
   const agradecimento({super.key});
@@ -21,7 +22,11 @@ class _agradecimentoState extends State<agradecimento> {
               child: IconButton(
                 icon: const Icon(Icons.close, color: Colors.white),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TelaInicial()),
+                  );
                 },
               ),
             ),
