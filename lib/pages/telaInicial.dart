@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hopee/db/alimentos_dao.dart';
 import 'package:hopee/domain/doacao_alimentos.dart';
 
+import 'alimentos.dart';
+
 class TelaInicial extends StatefulWidget {
   const TelaInicial({super.key});
 
@@ -22,6 +24,8 @@ class _TelaInicialState extends State<TelaInicial> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
         title: const Text(
           "Alimentos Cadastrados",
           style: TextStyle(
@@ -31,59 +35,67 @@ class _TelaInicialState extends State<TelaInicial> {
           ),
         ),
         backgroundColor: Colors.deepPurple,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add, color: Colors.white),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Alimentos()),
+              );
+            },
+          ),
+        ],
       ),
       body: SafeArea(
-        child: FutureBuilder<List<DoacaoAlimentos>>(
-          future: futureAlimentos,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (snapshot.hasError) {
-              return const Center(
-                child: Text("Ocorreu um erro inesperado!"),
-              );
-            } else {
-              List<DoacaoAlimentos> alimentos = snapshot.data ?? [];
-              if (alimentos.isEmpty) {
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: FutureBuilder<List<DoacaoAlimentos>>(
+            future: futureAlimentos,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
-                  child: Text("Nenhum alimento cadastrado."),
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return const Center(
+                  child: Text("Ocorreu um erro inesperado!"),
+                );
+              } else {
+                List<DoacaoAlimentos> alimentos = snapshot.data ?? [];
+                if (alimentos.isEmpty) {
+                  return const Center(
+                    child: Text("Nenhum alimento cadastrado."),
+                  );
+                }
+
+                return ListView.builder(
+                  itemCount: alimentos.length,
+                  itemBuilder: (context, index) {
+                    final alimento = alimentos[index];
+                    return Card(
+                      margin: const EdgeInsets.all(10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      elevation: 3,
+                      child: ListTile(
+                        title: Text(
+                          alimento.nome_alimento,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          "Quantidade: ${alimento.quant}\n"
+                              "Endereço: ${alimento.endereco}\n"
+                              "Prazo: ${alimento.prazo}",
+                        ),
+                      ),
+                    );
+                  },
                 );
               }
-
-              return ListView.builder(
-                itemCount: alimentos.length,
-                itemBuilder: (context, index) {
-                  final alimento = alimentos[index];
-                  return Card(
-                    margin: const EdgeInsets.all(10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    elevation: 3,
-                    child: ListTile(
-                      title: Text(
-                        alimento.nome_alimento,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(
-                        "Quantidade: ${alimento.quant}\n"
-                            "Endereço: ${alimento.endereco}\n"
-                            "Prazo: ${alimento.prazo}",
-                      ),
-                    ),
-                  );
-                },
-              );
-            }
-          },
+            },
+          ),
         ),
       ),
     );

@@ -47,11 +47,13 @@ class _AlimentosState extends State<Alimentos> {
               text: 'Alimento(s)',
               keyboardType: TextInputType.text,
             ),
+            SizedBox(height: 10),
             buildTextFormField(
               controller: quantController,
               text: 'Quant.',
               keyboardType: TextInputType.number,
             ),
+            SizedBox(height: 10),
             buildTextFormField(
               controller: enderecoController,
               text: 'Endereço',
@@ -76,6 +78,7 @@ class _AlimentosState extends State<Alimentos> {
                 },
               ),
             ),
+            SizedBox(height: 10),
             buildTextFormField(
               controller: prazoController,
               text: 'Prazo',
