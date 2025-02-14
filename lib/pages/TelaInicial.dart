@@ -187,6 +187,8 @@ class _TelaInicialState extends State<TelaInicial> {
                                         doacoesCard1[i].titulo!,
                                         style: const TextStyle(
                                           fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
                                         ),
                                       ),
                                       const SizedBox(height: 7),
