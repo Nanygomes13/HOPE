@@ -48,7 +48,7 @@ class DBHelper {
     sql = "CREATE TABLE USER (username varchar(100) PRIMARY KEY, password varchar(100))";
     await db.execute(sql);
 
-    sql = "INSERT INTO USER (username, password) VALUES ('joao@gmail.com', '123456')";
+    sql = "INSERT INTO USER (username, password) VALUES ('nany@gmail.com', '123456')";
     await db.execute(sql);
   }
 }
